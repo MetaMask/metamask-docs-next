@@ -1,0 +1,20 @@
+.logo {
+  user-select: none;
+  .display > .text {
+    font-size: 1rem;
+  }
+}
+
+/* Light Theme */
+.app-container.light {
+  .logo > .display > .text {
+    color: #333
+  }
+}
+
+/* Dark Theme */
+.app-container.dark {
+  .logo > .display > .text {
+    color: #FFF
+  }
+}

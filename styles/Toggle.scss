@@ -1,0 +1,63 @@
+:root {
+  --switch-background: #444;
+}
+
+$circle-onn-color: rgb(255,255,255);
+$circle-onn-opacity: 0.99;
+$circle-off-color: rgb(155,155,155);
+$circle-off-opacity: 0.99;
+
+$switch-width: 48px;
+$switch-height: 28px;
+$circle-size: 20px;
+
+$transition-time: 0.3s;
+$transition-style: ease;
+
+label.ui-switch {
+  display: inline-block;
+  width: $switch-width;
+  height: $switch-height;
+  background: var(--switch-background);
+  position: relative;
+  border-radius: 25px;
+  cursor: pointer;
+}
+label.ui-switch:active > .circle {
+  width: $circle-size;
+}
+label.ui-switch:active > .input:checked + .circle {
+  left: $circle-size;
+}
+
+label.ui-switch > .input {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  opacity: 0;
+  z-index: 100;
+  cursor: pointer;
+}
+label.ui-switch:hover {
+  background: #555;
+}
+label.ui-switch > .input:checked + .circle {
+  left: $circle-size;
+  top: 0px;
+  background: rgba($circle-onn-color, $circle-onn-opacity);
+}
+label.ui-switch > .circle {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  margin: 4px;
+  width: $circle-size;
+  height: $circle-size;
+  border-radius: 50%;
+  background: rgba($circle-off-color, $circle-off-opacity);
+  z-index: 100;
+  transition: all $transition-time $transition-style;
+  box-shadow: 0px 10px 20px 0px rgba(99, 107, 144,.35);
+}

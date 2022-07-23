@@ -6,16 +6,16 @@ type PropTypes = {
   pages: string[],
 }
 
-const SideBar = ({ pages }: PropTypes) => {
+const Sidenav = ({ pages }: PropTypes) => {
   /* const { data, error } = useSWR('/api/hello', fetcher);
    * if (error) return <div>failed to load</div> */
-  if (!pages) return <div>loading...</div>
+   if (!pages) return <div>loading...</div>
 
-  return (
-    <div>
-      Pages: {pages.map((p: any, idx: number) => <div key={idx}>{p}</div>)}
-    </div>
-  );
-}
+   return (
+     <div className="sidenav show">
+       Pages: {pages.map((p: any, idx: number) => <div key={idx}>{p}</div>)}
+     </div>
+   );
+ }
 
-export default SideBar;
+export default Sidenav

@@ -1,0 +1,121 @@
+:root {
+  --animationSpeed: 0.25s;
+}
+
+.hamburger-menu {
+  display: inline-block;
+  padding: 3px;
+  width: 29px;
+  margin-top: -7px;
+  margin-right: -10px;
+}
+
+.bars-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 20px;
+}
+
+.bars-container,
+.bar {
+  cursor: pointer;
+}
+
+.app-container.light .bar {
+  width: 100%;
+  height: 3px;
+  background-color: #222;
+  border-radius: 5px;
+  display: block;
+}
+.app-container.dark .bar {
+  width: 100%;
+  height: 3px;
+  background-color: #FFF;
+  border-radius: 5px;
+  display: block;
+}
+
+.bar1 {
+  transform-origin: center left;
+  position: relative;
+}
+
+/*************** hamburger menu 2 *****************/
+.bars-container2 {
+  position: relative;
+}
+
+.bars-container2 .bar {
+  position: absolute;
+  transform-origin: center;
+}
+
+.bars-container2 .bar1 {
+  top: 5%;
+  animation: makeCross1Backward var(--animationSpeed) ease 0s 1 forwards, moveDownBackward var(--animationSpeed) ease var(--animationSpeed) 1 forwards;
+}
+
+.bars-container2 .bar2 {
+  top: 50%;
+  transition: opacity 0.4s ease;
+}
+
+.bars-container2 .bar3 {
+  top: 95%;
+  animation: makeCross2Backward var(--animationSpeed) ease 0s 1 forwards, moveUpBackward var(--animationSpeed) ease var(--animationSpeed) 1 forwards;
+}
+
+.input-check2:checked + label .bar1 {
+  animation: moveDown var(--animationSpeed) ease 0s 1 forwards, makeCross1 var(--animationSpeed) ease var(--animationSpeed) 1 forwards;
+}
+
+.input-check2:checked + label .bar2 {
+  opacity: 0;
+}
+
+.input-check2:checked + label .bar3 {
+  animation: moveUp var(--animationSpeed) ease 0s 1 forwards,
+    makeCross2 var(--animationSpeed) ease var(--animationSpeed) 1 forwards;
+}
+
+@keyframes moveDown {
+  from { top: 5%; transform: translateY(0); }
+  to { top: 50%; transform: translateY(-50%); }
+}
+
+@keyframes moveDownBackward {
+  from { top: 50%; transform: translateY(-50%); }
+  to { top: 5%; transform: translateY(0); }
+}
+
+@keyframes moveUp {
+  from { top: 95%; transform: translateY(0); }
+  to { top: 50%; transform: translateY(-50%); }
+}
+
+@keyframes moveUpBackward {
+  from { top: 50%; transform: translateY(-50%); }
+  to { top: 95%; transform: translateY(0); }
+}
+
+@keyframes makeCross1 {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(40deg); }
+}
+
+@keyframes makeCross1Backward {
+  from { top: 50%; transform: rotate(40deg) translateY(-50%); }
+  to { top: 50%; transform: rotate(0deg) translateY(-50%); }
+}
+
+@keyframes makeCross2 {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-40deg); }
+}
+
+@keyframes makeCross2Backward {
+  from { top: 50%; transform: rotate(-40deg) translateY(-50%); }
+  to { top: 50%; transform: rotate(0deg) translateY(-50%); }
+}
