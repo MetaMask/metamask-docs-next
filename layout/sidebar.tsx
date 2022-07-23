@@ -1,5 +1,4 @@
 import useSWR from 'swr';
-import React from "react";
 
 const fetcher = (url: string): Promise<any> => fetch(url).then(r => r.json());
 
@@ -14,9 +13,9 @@ const SideBar = ({ pages }: PropTypes) => {
 
   return (
     <div>
-      Pages: {pages.map((p: any) => <div>{p}</div>)}
+      Pages: {pages.map((p: any, idx: number) => <div key={idx}>{p}</div>)}
     </div>
-  )
+  );
 }
 
 export default SideBar;

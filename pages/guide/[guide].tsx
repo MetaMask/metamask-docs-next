@@ -1,6 +1,3 @@
-import React from 'react'
-import App from 'next/app'
-import Layout from '../../layout';
 import getPages, { getGuideList } from '../../lib/getPages';
 
 export default function Guide({ pages }: any) {
@@ -13,10 +10,10 @@ export default function Guide({ pages }: any) {
         </div>
         <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} /> */}
       </article>
-  )
+  );
 }
 
-export async function getStaticPaths() {
+export const getStaticPaths = async() => {
   const paths = await getGuideList();
   console.log(paths);
   return {
@@ -25,7 +22,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps() {
+export const getStaticProps = async() => {
   const pages = await getPages();
 
   return { props: { pages }};

@@ -4,7 +4,7 @@ import React from "react";
 const NavBar = () => {
   return (
     <div>
-      Powered by snorting gfuel
+      FOOTER
     </div>
   )
 }

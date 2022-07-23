@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from './navbar'
 import Footer from './footer'
 import SideBar from './sidebar'
@@ -13,7 +12,7 @@ const Layout = ({ children, pages }: PropTypes) => {
     <>
       <Navbar />
       <SideBar pages={pages} />
-      <aside>Ballsagnia</aside>
+      <aside>Layout...</aside>
       <main>{children}</main>
       <Footer />
     </>

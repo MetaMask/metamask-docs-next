@@ -1,0 +1,34 @@
+---
+title: "Ethereum Provider API"
+---
+
+::: tip Recommended Reading
+We recommend that all web3 site developers read the [Basic Usage](#basic-usage) section.
+:::
+
+::: tip Recent Breaking Provider Changes
+If you are an Ethereum application developer and are looking for information about our January 2021 provider API changes,
+please see our [Migration Guide](./provider-migration.html) for more details.
+:::
+
+MetaMask injects a global API into websites visited by its users at `window.ethereum`.
+This API allows websites to request users' Ethereum accounts, read data from blockchains the user is connected to, and suggest that the user sign messages and transactions.
+The presence of the provider object indicates an Ethereum user.
+We recommend using [`@metamask/detect-provider`](https://npmjs.com/package/@metamask/detect-provider) to detect our provider, on any platform or browser.
+
+The Ethereum JavaScript provider API is specified by [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193).
+
+```javascript
+// This function detects most providers injected at window.ethereum
+import detectEthereumProvider from '@metamask/detect-provider';
+
+const provider = await detectEthereumProvider();
+
+if (provider) {
+  // From now on, this should always be true:
+  // provider === window.ethereum
+  startApp(provider); // initialize your app
+} else {
+  console.log('Please install MetaMask!');
+}
+```

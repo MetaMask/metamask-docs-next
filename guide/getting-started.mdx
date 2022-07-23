@@ -1,0 +1,29 @@
+---
+title: "Getting Started"
+---
+
+To develop for MetaMask, install MetaMask in the browser of your choice on your development machine. [Download here](https://metamask.io/).
+
+::: warning A quick note...
+This guide assumes intermediate knowledge of HTML, CSS, and JavaScript.
+:::
+
+Once MetaMask is installed and running (make sure you back up your Secret Recovery Phrase), you should find that new browser tabs have a `window.ethereum` object available in the developer console.
+This is how your website will interact with MetaMask.
+
+You can review the full API for that object [here](./ethereum-provider.html).
+Note that **over the course of 2020**, we introduced significant changes to this API, and we recommend that you refer to its documentation.
+
+## Basic Considerations
+
+### Web3 Browser Detection
+
+To verify if the browser is running MetaMask, copy and paste the code snippet below in the developer console of your web browser:
+
+```javascript
+if (typeof window.ethereum !== 'undefined') {
+  console.log('MetaMask is installed!');
+}
+```
+
+You can review the full API for the `window.ethereum` object [here](./ethereum-provider.html).
