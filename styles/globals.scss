@@ -29,16 +29,6 @@ main {
   grid-template-rows: 60px auto 40px;
 }
 
-/* Side Navigation */
-.sidenav,
-.sidenav.show {
-  min-width: 150px;
-  height: 100vh;
-}
-.sidenav.hide {
-  display: none;
-}
-
 /* Top Navigation */
 header {
   display: flex;
@@ -58,13 +48,29 @@ header {
 /* Content Section */
 section {
   height: calc(100% - 0em);
-  padding: 1em;
+  padding: 0;
+  margin: 0;
+}
+
+section .docs {
+  display: flex;
+  height: calc(100% - 0em);
+}
+section .sidenav {
+  width: 230px;
+  padding: 1.5em;
+  font-size: smaller;
+}
+section .guide {
+  width: auto;
+  padding: 1.5em;
 }
 
 /* Footer */
 footer {
   height: 40px;
   display: flex;
+  padding: 0.375em 0 0 0;
 }
 footer .left {
   width: 80%;
@@ -90,11 +96,19 @@ footer .right {
     border-top: 1px solid #eaecef;
     background-color: #FFF;
     color: #333;
+    .docs .sidenav {
+      background-color: #FFF;
+      border-right: 1px solid #eaecef;
+    }
+    .docs .guide {
+      background-color: #FFF;
+    }
   }
   section a {
     background-color: #EEE;
   }
   footer {
+    border-top: 1px solid #eaecef;
     background-color: #FFF;
     color: #333;
   }
@@ -119,11 +133,19 @@ footer .right {
     border-top: 1px solid #2f2f2f;
     background-color: #121212;
     color: #FFF;
+    .docs .sidenav {
+    background-color: #121212;
+    border-right: 1px solid #2f2f2f;
+    }
+    .docs .guide {
+    background-color: #121212;
+    }
   }
   section a {
     background-color: #121212;
   }
   footer {
+    border-top: 1px solid #2f2f2f;
     background-color: #121212;
     color: #FFF;
   }

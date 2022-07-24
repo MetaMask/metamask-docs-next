@@ -1,15 +1,19 @@
 import getPages, { getGuideList } from '../../lib/getPages';
+import Sidenav from '../../layout/Sidenav'
 
 export default function Guide({ pages }: any) {
   return (
-    <article>
-    Hello world!
-    {/* <h1 className={utilStyles.headingXl}>{postData.title}</h1>
-        <div className={utilStyles.lightText}>
-        <Date dateString={postData.date} />
-        </div>
-        <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} /> */}
-      </article>
+    <div className="docs">
+      <Sidenav pages={pages} />
+      <div className="guide">
+        <span>Markdown goes here?</span>
+      </div>
+      {/* <h1 className={utilStyles.headingXl}>{postData.title}</h1>
+          <div className={utilStyles.lightText}>
+          <Date dateString={postData.date} />
+          </div>
+          <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} /> */}
+    </div>
   );
 }
 
