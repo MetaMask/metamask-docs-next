@@ -26,8 +26,8 @@
 /* Light Theme */
 .app-container.light {
   .sidenav {
-    background-color: #EFEFEF;
-    color: #222222;
+    background-color: #FFF;
+    border-right: 1px solid #eaecef;
   }
   .sidenav li {
     border-bottom: 1px solid #555555;
@@ -37,13 +37,10 @@
 /* Dark Theme */
 .app-container.dark {
   .sidenav {
-    background-color: #1e1e1e;
-    color: #FFFFFF;
+    background-color: #121212;
+    border-right: 1px solid #2f2f2f;
   }
   .sidenav li {
     border-bottom: 1px solid #EFEFEF;
   }
 }
-
-.app-container.small .sidenav { display: auto; }
-.app-container.medium .sidenav { display: none; }

@@ -36,7 +36,6 @@ const Layout = ({ children, pages }: PropTypes) => {
             <Foot />
           </footer>
         </main>
-        <Sidenav pages={pages} />
       </div>
 
     </>

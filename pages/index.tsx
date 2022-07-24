@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
-// import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.scss'
 
 const Home: NextPage = () => {
   return (
-    <div className={`home`}>
+    <div className={styles.home}>
       <h1>Home Page</h1>
       {/* <main className={styles.main}>
         <h1 className={styles.title}>
