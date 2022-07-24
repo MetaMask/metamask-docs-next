@@ -4,7 +4,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Lato, sans-serif;
 }
 
 a {
@@ -19,7 +19,6 @@ a {
 .app-container {
   display: flex;
   height: 100vh;
-  font-family: 'Lato', sans-serif;
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
 }
@@ -84,23 +83,23 @@ footer .right {
 /* Light Theme */
 .app-container.light {
   header {
-    background-color: #FFFFFF;
-    color: #222222;
+    background-color: #FFF;
+    color: #333;
   }
   section {
     border-top: 1px solid #eaecef;
-    background-color: #FFFFFF;
-    color: #222222;
+    background-color: #FFF;
+    color: #333;
   }
   section a {
-    background-color: #EEEEEE;
+    background-color: #EEE;
   }
   footer {
-    background-color: #FFFFFF;
-    color: #222222;
+    background-color: #FFF;
+    color: #333;
   }
   input {
-    color: #222222;
+    color: #333;
   }
   .tooltip:after,
   [data-tooltip]:after {
@@ -113,22 +112,22 @@ footer .right {
 /* Dark Theme */
 .app-container.dark {
   header {
-    background-color: #010101;
-    color: #FFFFFF;
+    background-color: #121212;
+    color: #FFF;
   }
   section {
-    border-top: 1px solid #EFEFEF;
-    background-color: #010101;
-    color: #FFFFFF;
+    border-top: 1px solid #2f2f2f;
+    background-color: #121212;
+    color: #FFF;
   }
   section a {
-    background-color: #333333;
+    background-color: #121212;
   }
   footer {
-    background-color: #010101;
-    color: #FFFFFF;
+    background-color: #121212;
+    color: #FFF;
   }
   input {
-    color: #FFFFFF;
+    color: #FFF;
   }
 }
