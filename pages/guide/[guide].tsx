@@ -1,5 +1,5 @@
 import getPages, { getGuideList } from '../../lib/getPages';
-import Sidenav from '../../layout/Sidenav'
+import Sidenav from '../../layout/Sidenav';
 
 export default function Guide({ pages }: any) {
   return (

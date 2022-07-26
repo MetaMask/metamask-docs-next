@@ -9,7 +9,7 @@ const Hamburger = ({ onClick }: any) => {
         <span className="bar bar3"></span>
       </label>
     </div>
-  )
+  );
 }
 
-export default Hamburger
+export default Hamburger;

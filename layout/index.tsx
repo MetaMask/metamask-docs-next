@@ -1,14 +1,13 @@
-import Head from 'next/head'
+import Head from 'next/head';
 
-import Logo from './Logo'
-import Topnav from './Topnav'
-import Foot from './Foot'
-import Sidenav from './Sidenav'
+import Logo from './Logo';
+import Topnav from './Topnav';
+import Foot from './Foot';
 
 type PropTypes = {
   children: React.ReactNode,
   pages: string[],
-}
+};
 
 const Layout = ({ children, pages }: PropTypes) => {
   return (
@@ -39,7 +38,7 @@ const Layout = ({ children, pages }: PropTypes) => {
       </div>
 
     </>
-  )
+  );
 }
 
 export default Layout;

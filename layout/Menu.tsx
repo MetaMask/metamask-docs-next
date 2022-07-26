@@ -1,17 +1,17 @@
-import Link from 'next/link'
-// import { useContext } from 'react'
-// import { AppContext } from '../../context/AppContext'
-import { SiGithub } from 'react-icons/si'
+import Link from 'next/link';
+// import { useContext } from 'react';
+// import { AppContext } from '../../context/AppContext';
+import { SiGithub } from 'react-icons/si';
 
-// import Hamburger from '../components/ui/hamburger/Hamburger'
+// import Hamburger from '../components/ui/hamburger/Hamburger';
 
 interface AppRoute {
   name: string;
   href: string;
-}
+};
 interface RouterLinksProps {
   routes: AppRoute[];
-}
+};
 
 const RouterLinks = ({ routes }: RouterLinksProps) => {
   return <>
@@ -29,14 +29,14 @@ const RouterLinks = ({ routes }: RouterLinksProps) => {
 const Menu = () => {
   // const context = useContext(AppContext)
   const handleClick = () => {
-    console.log("Open the Mobile Nav")
-    // context.toggleSidenav(!context.navOpen)
+    console.log("Open the Mobile Nav");
+    // context.toggleSidenav(!context.navOpen);
   }
 
   const myAppRoutes: AppRoute[] = [
     { name: "home", href: "/" },
     { name: "guide", href: "/guide/ethereum-provider" }
-  ]
+  ];
 
   return (
     <ul style={{ userSelect: 'none' }}>
@@ -53,7 +53,7 @@ const Menu = () => {
         <Hamburger onClick={handleClick} />
       </li> */}
     </ul>
-  )
+  );
 }
 
-export default Menu
+export default Menu;

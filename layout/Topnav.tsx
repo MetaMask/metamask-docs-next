@@ -5,7 +5,7 @@ const Topnav = () => {
     <div className={'topnav'}>
       <Menu />
     </div>
-  )
+  );
 }
 
 export default Topnav;

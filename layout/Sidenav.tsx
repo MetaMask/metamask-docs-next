@@ -4,7 +4,7 @@ const fetcher = (url: string): Promise<any> => fetch(url).then(r => r.json());
 
 type PropTypes = {
   pages: string[],
-}
+};
 
 const Sidenav = ({ pages }: PropTypes) => {
   /* const { data, error } = useSWR('/api/hello', fetcher);
@@ -18,4 +18,4 @@ const Sidenav = ({ pages }: PropTypes) => {
    );
  }
 
-export default Sidenav
+export default Sidenav;

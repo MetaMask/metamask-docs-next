@@ -1,13 +1,13 @@
-// import { useContext } from 'react'
-// import { AppContext } from '../../context/AppContext'
-import Toggle from '../components/ui/toggle/Toggle'
+// import { useContext } from 'react';
+// import { AppContext } from '../../context/AppContext';
+import Toggle from '../components/ui/toggle/Toggle';
 
 const Foot = () => {
-  // const context = useContext(AppContext)
-  // const isLight = context.themeMode === 'light'
+  // const context = useContext(AppContext);
+  // const isLight = context.themeMode === 'light';
 
   const handleSwitch = () => {
-    console.log("Switch has been switched")
+    console.log("Switch has been switched");
   }
   
   return (
@@ -19,7 +19,7 @@ const Foot = () => {
         <Toggle onChange={handleSwitch} />
       </div>
     </>
-  )
+  );
 }
 
-export default Foot
+export default Foot;

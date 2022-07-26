@@ -4,7 +4,7 @@ const Logo = () => {
     <div className={`logo`}>
       MetaMask Docs
     </div>
-  )
+  );
 }
 
-export default Logo
+export default Logo;

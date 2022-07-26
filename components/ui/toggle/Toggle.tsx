@@ -7,7 +7,7 @@ const Toggle = ({ onChange }: any) => {
         <div className="circle"></div>
       </label>
     </div>
-  )
+  );
 }
 
-export default Toggle
+export default Toggle;
