@@ -8,7 +8,6 @@ import fs from "fs";
 const pagesDirectory = path.join(process.cwd(), 'guide')
 
 export default function Guide({ pages, pageData }: any) {
-  console.log('pageData', pageData);
   return (
     <div className="docs">
       <Sidenav pages={pages} />
