@@ -23,24 +23,24 @@
   font-weight: bold;
 }
 
-// /* Light Theme */
-// .app-container.light {
-//   .sidenav {
-//     background-color: #FFF;
-//     border-right: 1px solid #eaecef;
-//   }
-//   .sidenav li {
-//     border-bottom: 1px solid #555555;
-//   }
-// }
+/* Light Theme */
+.app-container.light {
+  .sidenav {
+    background-color: #FFF;
+    border-right: 1px solid #eaecef;
+  }
+  .sidenav li {
+    border-bottom: 1px solid #555555;
+  }
+}
 
-// /* Dark Theme */
-// .app-container.dark {
-//   .sidenav {
-//     background-color: #121212;
-//     border-right: 1px solid #2f2f2f;
-//   }
-//   .sidenav li {
-//     border-bottom: 1px solid #EFEFEF;
-//   }
-// }
+/* Dark Theme */
+.app-container.dark {
+  .sidenav {
+    background-color: #121212;
+    border-right: 1px solid #2f2f2f;
+  }
+  .sidenav li {
+    border-bottom: 1px solid #EFEFEF;
+  }
+}

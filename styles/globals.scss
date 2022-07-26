@@ -1,3 +1,5 @@
+@import '../../node_modules/@metamask/design-tokens/src/css/design-tokens';
+
 html,
 body {
   background-color: #121212;
@@ -86,50 +88,50 @@ footer .right {
   }
 }
 
-// /* Light Theme */
-// .app-container.light {
-//   header {
-//     background-color: #FFF;
-//     color: #333;
-//   }
-//   section {
-//     border-top: 1px solid #eaecef;
-//     background-color: #FFF;
-//     color: #333;
-//   }
-//   section a {
-//     background-color: #EEE;
-//   }
-//   footer {
-//     border-top: 1px solid #eaecef;
-//     background-color: #FFF;
-//     color: #333;
-//   }
-//   input {
-//     color: #333;
-//   }
-// }
+/* Light Theme */
+.app-container.light {
+  header {
+    background-color: #FFF;
+    color: #333;
+  }
+  section {
+    border-top: 1px solid #eaecef;
+    background-color: #FFF;
+    color: #333;
+  }
+  section a {
+    background-color: #EEE;
+  }
+  footer {
+    border-top: 1px solid #eaecef;
+    background-color: #FFF;
+    color: #333;
+  }
+  input {
+    color: #333;
+  }
+}
 
-// /* Dark Theme */
-// .app-container.dark {
-//   header {
-//     background-color: #121212;
-//     color: #FFF;
-//   }
-//   section {
-//     border-top: 1px solid #2f2f2f;
-//     background-color: #121212;
-//     color: #FFF;
-//   }
-//   section a {
-//     background-color: #121212;
-//   }
-//   footer {
-//     border-top: 1px solid #2f2f2f;
-//     background-color: #121212;
-//     color: #FFF;
-//   }
-//   input {
-//     color: #FFF;
-//   }
-// }
+/* Dark Theme */
+.app-container.dark {
+  header {
+    background-color: #121212;
+    color: #FFF;
+  }
+  section {
+    border-top: 1px solid #2f2f2f;
+    background-color: #121212;
+    color: #FFF;
+  }
+  section a {
+    background-color: #121212;
+  }
+  footer {
+    border-top: 1px solid #2f2f2f;
+    background-color: #121212;
+    color: #FFF;
+  }
+  input {
+    color: #FFF;
+  }
+}
