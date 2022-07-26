@@ -15,16 +15,9 @@
 .app-container.small .topnav ul > li.menu { display: auto; }
 .app-container.medium .topnav ul > li.menu { display: none; }
 
-/* Light Theme */
-.app-container.light {
+/* Theme */
+.app-container {
   .topnav ul > li a {
-    color: rgb(33, 37, 41);
-  }
-}
-
-/* Dark Theme */
-.app-container.dark {
-  .topnav ul > li a {
-    color: rgb(240, 240, 240);
+    color: var(--color-text-default);
   }
 }

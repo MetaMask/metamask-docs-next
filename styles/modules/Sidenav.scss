@@ -23,24 +23,13 @@
   font-weight: bold;
 }
 
-/* Light Theme */
-.app-container.light {
+/* Theme */
+.app-container {
   .sidenav {
-    background-color: #FFF;
-    border-right: 1px solid #eaecef;
+    background-color: var(--color-background-default);
+    border-right: 1px solid var(--color-border-muted);
   }
   .sidenav li {
-    border-bottom: 1px solid #555555;
-  }
-}
-
-/* Dark Theme */
-.app-container.dark {
-  .sidenav {
-    background-color: #121212;
-    border-right: 1px solid #2f2f2f;
-  }
-  .sidenav li {
-    border-bottom: 1px solid #EFEFEF;
+    border-bottom: 1px solid var(--color-border);
   }
 }

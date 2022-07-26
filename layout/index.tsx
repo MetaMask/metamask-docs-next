@@ -22,7 +22,7 @@ const Layout = ({ children, pages }: PropTypes) => {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <div className={`app-container light`}>
+      <div className="app-container" data-theme="dark">
         <main>
           <header>
             <Logo />

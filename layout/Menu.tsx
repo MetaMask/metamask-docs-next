@@ -19,7 +19,7 @@ const RouterLinks = ({ routes }: RouterLinksProps) => {
       (route, idx) =>
         <li className="link" key={`${route.name}-${idx}`}>
           <Link href={route.href}>
-            <a className='text_link'>{route.name}</a>
+            <a>{route.name}</a>
           </Link>
         </li>
     )}
@@ -43,7 +43,6 @@ const Menu = () => {
       <RouterLinks routes={myAppRoutes} />
       <li className='link'>
         <a 
-            className='text_link' 
             tabIndex={4} 
             href='https://github.com/metamask/metamask-docs-next'>
           <SiGithub />

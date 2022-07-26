@@ -5,16 +5,9 @@
   }
 }
 
-/* Light Theme */
-.app-container.light {
+/* Theme */
+.app-container {
   .logo > .display > .text {
-    color: #333
-  }
-}
-
-/* Dark Theme */
-.app-container.dark {
-  .logo > .display > .text {
-    color: #FFF
+    color: var(--color-text-default);
   }
 }
