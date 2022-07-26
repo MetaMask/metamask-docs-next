@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mdx-js/loader": "^2.1.2",
+    "@metamask/design-tokens": "^1.8.0",
     "@next/mdx": "^12.2.2",
     "@types/glob": "^7.2.0",
     "glob": "^8.0.3",
