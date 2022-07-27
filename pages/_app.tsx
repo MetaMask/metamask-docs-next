@@ -1,15 +1,19 @@
 import 'normalize.css';
 import '../styles/index.scss'
 
+import { AppProvider } from '../context/AppContext'
+
 import type { AppProps } from 'next/app';
 import Layout from '../layout';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
 
   return (
-    <Layout {...pageProps}>
-      <Component {...pageProps} />
-    </Layout>
+    <AppProvider>
+      <Layout {...pageProps}>
+        <Component {...pageProps} />
+      </Layout>
+    </AppProvider>
   );
 }
 

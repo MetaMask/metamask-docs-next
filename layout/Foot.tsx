@@ -1,13 +1,14 @@
-// import { useContext } from 'react';
-// import { AppContext } from '../../context/AppContext';
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContext';
+
 import Toggle from '../components/ui/toggle/Toggle';
 
 const Foot = () => {
-  // const context = useContext(AppContext);
-  // const isLight = context.themeMode === 'light';
+  const context = useContext(AppContext)
+  const isLight = context.themeMode === 'light'
 
   const handleSwitch = () => {
-    console.log("Switch has been switched");
+    context.changeTheme(isLight ? 'dark' : 'light')
   }
   
   return (

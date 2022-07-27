@@ -1,4 +1,6 @@
+import { useContext } from 'react'
 import Head from 'next/head';
+import { AppContext } from '../context/AppContext';
 
 import Logo from './Logo';
 import Topnav from './Topnav';
@@ -10,6 +12,8 @@ type PropTypes = {
 };
 
 const Layout = ({ children, pages }: PropTypes) => {
+  const context = useContext(AppContext)
+
   return (
     <>
       <Head>
@@ -22,7 +26,7 @@ const Layout = ({ children, pages }: PropTypes) => {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <div className="app-container" data-theme="dark">
+      <div className="app-container" data-theme={context.themeMode}>
         <main>
           <header>
             <Logo />
