@@ -14,7 +14,7 @@ const Foot = () => {
   return (
     <>
       <div className="left">
-        🦊 Stay Foxy
+        &nbsp;
       </div>
       <div className="right">
         <Toggle onChange={handleSwitch} />
