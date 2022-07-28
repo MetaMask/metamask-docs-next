@@ -15,18 +15,21 @@ type PropTypes = {
 const Layout = ({ children, pages }: PropTypes) => {
   const context = useContext(AppContext)
   const { asPath } = useRouter()
-  let subRoute:string, match:any
+  let subRouteTitle:string, match:any
+  let rootPath = true
 
-  // this is horrible, just trying to find out how to fin the route so we can display in <title>
+  // this is horrible, just trying to find out how to find the route so we can display in <title>
   if (asPath !== '/') {
+    rootPath = false
     const regexMatchPathGroups = /^\/(?=\S*['-])([a-zA-Z'-]+)\/(?=\S*['-])([a-zA-Z'-]+)$/
     match = regexMatchPathGroups.exec(asPath)
+    subRouteTitle = match[2].replace('-', ' ')
   }
 
   return (
     <>
       <Head>
-        <title>{asPath !== '/' ? `${match[2].replace('-', ' ')} | ` : ''} MetaMask Docs</title>
+        <title>MetaMask Docs{!rootPath ? ` | ${subRouteTitle}` : ''}</title>
         <meta name="description" content="MetaMask API Methods in Real World React Components" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
