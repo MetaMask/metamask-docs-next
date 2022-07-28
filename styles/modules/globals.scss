@@ -56,8 +56,7 @@ section .docs {
   height: calc(100% - 0em);
 }
 section .sidenav {
-  width: 230px;
-  padding: 1.5em;
+  min-width: 180px;
   font-size: smaller;
 }
 section .guide {

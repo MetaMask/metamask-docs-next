@@ -9,9 +9,11 @@ const Sidenav = ({ pages }: PropTypes) => {
    if (!pages) return <div>loading...</div>
 
    return (
-     <div className="sidenav" style={{width: "320px"}}>
-       Pages: {pages.map((p: any, idx: number) => 
-        <div key={idx}><Link href={p} >{p}</Link></div>
+     <div className="sidenav">
+       {pages.map((p: any, idx: number) => 
+        <li className="link" key={idx}>
+          <Link href={p} >{p}</Link>
+        </li>
       )}
      </div>
    );
