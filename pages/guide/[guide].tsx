@@ -1,6 +1,7 @@
-import getPages, { getGuideList } from '../../lib/getPages';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import getPages, { getGuideContent, getGuideList } from '../../lib/getPages';
 
-export default function Guide({ pages }: any) {
+export default function Guide({ pageContent }: any) {
   return (
     <article>
     Hello world!
@@ -13,7 +14,7 @@ export default function Guide({ pages }: any) {
   );
 }
 
-export const getStaticPaths = async() => {
+export const getStaticPaths: GetStaticPaths = async() => {
   const paths = await getGuideList();
   console.log(paths);
   return {
@@ -22,8 +23,9 @@ export const getStaticPaths = async() => {
   };
 }
 
-export const getStaticProps = async() => {
+export const getStaticProps: GetStaticProps = async({ params }) => {
   const pages = await getPages();
+  const content = await getGuideContent((params as any).guide);
 
-  return { props: { pages }};
+  return { props: { pages, pageContent: content }};
 }
