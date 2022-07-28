@@ -25,11 +25,12 @@ const Layout = ({ children, pages }: PropTypes) => {
     match = regexMatchPathGroups.exec(asPath)
     subRouteTitle = match[2].replace('-', ' ')
   }
+  const title = "MetaMask Docs" + !rootPath ? ` | ${subRouteTitle}` : ''
 
   return (
     <>
       <Head>
-        <title>MetaMask Docs{!rootPath ? ` | ${subRouteTitle}` : ''}</title>
+        <title>{title}</title>
         <meta name="description" content="MetaMask API Methods in Real World React Components" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
