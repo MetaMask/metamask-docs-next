@@ -1,6 +1,7 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import Head from 'next/head';
 import { AppContext } from '../context/AppContext';
+import { useRouter } from 'next/router'
 
 import Logo from './Logo';
 import Topnav from './Topnav';
@@ -13,11 +14,19 @@ type PropTypes = {
 
 const Layout = ({ children, pages }: PropTypes) => {
   const context = useContext(AppContext)
+  const { asPath } = useRouter()
+  let subRoute:string, match:any
+
+  // this is horrible, just trying to find out how to fin the route so we can display in <title>
+  if (asPath !== '/') {
+    const regexMatchPathGroups = /^\/(?=\S*['-])([a-zA-Z'-]+)\/(?=\S*['-])([a-zA-Z'-]+)$/
+    match = regexMatchPathGroups.exec(asPath)
+  }
 
   return (
     <>
       <Head>
-        <title>... | MetaMask Docs</title>
+        <title>{asPath !== '/' ? `${match[2].replace('-', ' ')} | ` : ''} MetaMask Docs</title>
         <meta name="description" content="MetaMask API Methods in Real World React Components" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
