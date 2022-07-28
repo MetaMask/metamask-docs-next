@@ -31,7 +31,7 @@ const Menu = () => {
   // const context = useContext(AppContext)
   const myAppRoutes: AppRoute[] = [
     { name: 'home', href: '/' },
-    { name: 'guide', href: '/guide/ethereum-provider' },
+    { name: 'guide', href: '/guide' },
   ];
 
   return (
