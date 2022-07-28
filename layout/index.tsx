@@ -25,7 +25,7 @@ const Layout = ({ children, pages }: PropTypes) => {
     match = regexMatchPathGroups.exec(asPath)
     subRouteTitle = match[2].replace('-', ' ')
   }
-  const title = "MetaMask Docs" + !rootPath ? ` | ${subRouteTitle}` : ''
+  const title = `MetaMask Docs ${!rootPath ? ` | ${subRouteTitle}` : ''}`
 
   return (
     <>
