@@ -11,15 +11,13 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  min-height: 50px;
+  min-height: 35px;
   user-select: none;
 }
 .sidenav li > a {
   margin-left: 1em;
 }
-.sidenav li:last-child {
-  display: none;
-}
+
 .active {
   font-weight: bold;
 }

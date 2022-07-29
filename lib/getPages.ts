@@ -1,9 +1,4 @@
 import glob from "glob";
-import path from "path";
-import fs from "fs";
-import { serialize } from 'next-mdx-remote/serialize'
-
-const pagesDirectory = path.join(process.cwd(), 'guide')
 
 const getPages = (): Promise<string[]> => {
   return new Promise((resolve, reject) => {
