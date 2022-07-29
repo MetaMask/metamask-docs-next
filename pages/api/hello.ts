@@ -2,13 +2,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import getPages from '../../lib/getPages';
 
-type Data = {
+interface Data {
   pages: string[];
 }
 
-const handler = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
+const handler = async (_: NextApiRequest, res: NextApiResponse<Data>) => {
   const pages = await getPages();
   res.status(200).json({ pages });
-}
+};
 
 export default handler;
