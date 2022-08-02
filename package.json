@@ -12,6 +12,10 @@
     "start": "next start",
     "test": "echo 'no test specified' && exit 0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MetaMask/metamask-docs-next"
+  },
   "dependencies": {
     "@mdx-js/loader": "^2.1.2",
     "@metamask/design-tokens": "^1.8.0",
