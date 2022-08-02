@@ -6,6 +6,7 @@
     "build": "next build && next export",
     "dev": "next dev",
     "lint": "yarn lint:eslint && yarn lint:misc --check",
+    "test": "echo 'no test specified' && exit 0",
     "lint:eslint": "eslint . --cache --ext js,ts",
     "lint:fix": "yarn lint:eslint --fix && yarn lint:misc --write",
     "lint:misc": "prettier '**/*.json' '**/*.md' '!CHANGELOG.md' '**/*.yml' '!.yarnrc.yml' --ignore-path .gitignore --no-error-on-unmatched-pattern",
