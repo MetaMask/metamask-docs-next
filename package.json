@@ -2,6 +2,10 @@
   "name": "docs-site",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MetaMask/metamask-docs-next"
+  },
   "scripts": {
     "build": "next build && next export",
     "dev": "next dev",
@@ -11,10 +15,6 @@
     "lint:misc": "prettier '**/*.json' '**/*.md' '!CHANGELOG.md' '**/*.yml' '!.yarnrc.yml' --ignore-path .gitignore --no-error-on-unmatched-pattern",
     "start": "next start",
     "test": "echo 'no test specified' && exit 0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/MetaMask/metamask-docs-next"
   },
   "dependencies": {
     "@mdx-js/loader": "^2.1.2",
