@@ -1545,51 +1545,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"docs-site@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "docs-site@workspace:."
-  dependencies:
-    "@lavamoat/allow-scripts": ^2.0.3
-    "@mdx-js/loader": ^2.1.2
-    "@metamask/auto-changelog": ^2.3.0
-    "@metamask/design-tokens": ^1.8.0
-    "@metamask/eslint-config": ^9.0.0
-    "@metamask/eslint-config-jest": ^9.0.0
-    "@metamask/eslint-config-nodejs": ^9.0.0
-    "@metamask/eslint-config-typescript": ^9.0.1
-    "@next/mdx": ^12.2.2
-    "@types/glob": ^7.2.0
-    "@types/node": 18.0.6
-    "@types/react": 18.0.15
-    "@types/react-dom": 18.0.6
-    "@typescript-eslint/eslint-plugin": ^5.31.0
-    "@typescript-eslint/parser": ^5.31.0
-    eslint: 8.20.0
-    eslint-config-next: 12.2.2
-    eslint-config-prettier: ^8.1.0
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-jest: ^24.3.4
-    eslint-plugin-jsdoc: ^36.1.0
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^3.3.1
-    glob: ^8.0.3
-    next: 12.2.2
-    next-mdx-remote: ^4.1.0
-    normalize.css: ^8.0.1
-    prettier: ^2.2.1
-    prettier-plugin-packagejson: ^2.2.17
-    react: 18.2.0
-    react-dom: 18.2.0
-    react-icons: ^4.4.0
-    rehype-slug: ^5.0.1
-    rehype-stringify: ^9.0.3
-    remark-slug: ^7.0.1
-    sass: ^1.54.0
-    swr: ^1.3.0
-    typescript: 4.7.4
-  languageName: unknown
-  linkType: soft
-
 "doctrine@npm:^2.1.0":
   version: 2.1.0
   resolution: "doctrine@npm:2.1.0"
@@ -3505,6 +3460,50 @@ __metadata:
   languageName: node
   linkType: hard
 
+"metamask-docs-next@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "metamask-docs-next@workspace:."
+  dependencies:
+    "@lavamoat/allow-scripts": ^2.0.3
+    "@mdx-js/loader": ^2.1.2
+    "@metamask/auto-changelog": ^2.3.0
+    "@metamask/design-tokens": ^1.8.0
+    "@metamask/eslint-config": ^9.0.0
+    "@metamask/eslint-config-jest": ^9.0.0
+    "@metamask/eslint-config-nodejs": ^9.0.0
+    "@metamask/eslint-config-typescript": ^9.0.1
+    "@next/mdx": ^12.2.2
+    "@types/glob": ^7.2.0
+    "@types/node": 18.0.6
+    "@types/react": 18.0.15
+    "@types/react-dom": 18.0.6
+    "@typescript-eslint/eslint-plugin": ^5.31.0
+    "@typescript-eslint/parser": ^5.31.0
+    eslint: 8.20.0
+    eslint-config-next: 12.2.2
+    eslint-config-prettier: ^8.1.0
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-jest: ^24.3.4
+    eslint-plugin-jsdoc: ^36.1.0
+    eslint-plugin-node: ^11.1.0
+    eslint-plugin-prettier: ^3.3.1
+    glob: ^8.0.3
+    next: 12.2.2
+    next-mdx-remote: ^4.1.0
+    normalize.css: ^8.0.1
+    prettier: ^2.2.1
+    prettier-plugin-packagejson: ^2.2.17
+    react: 18.2.0
+    react-dom: 18.2.0
+    react-icons: ^4.4.0
+    rehype-slug: ^5.0.1
+    rehype-stringify: ^9.0.3
+    remark-slug: ^7.0.1
+    sass: ^1.54.0
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "micromark-core-commonmark@npm:^1.0.0, micromark-core-commonmark@npm:^1.0.1":
   version: 1.0.6
   resolution: "micromark-core-commonmark@npm:1.0.6"
@@ -5311,15 +5310,6 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 53b1e247e68e05db7b3808b99b892bd36fb096e6fba213a06da7fab22045e97597db425c724f2bbd6c99a3c295e1e73f3e4de78592289f38431049e1277ca0ae
-  languageName: node
-  linkType: hard
-
-"swr@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "swr@npm:1.3.0"
-  peerDependencies:
-    react: ^16.11.0 || ^17.0.0 || ^18.0.0
-  checksum: e7a184f0d560e9c8be85c023cc8e65e56a88a6ed46f9394b301b07f838edca23d2e303685319a4fcd620b81d447a7bcb489c7fa0a752c259f91764903c690cdb
   languageName: node
   linkType: hard
 

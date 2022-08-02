@@ -7,11 +7,6 @@ import Sidenav from '../../layout/Sidenav';
 
 const pagesDirectory = path.join(process.cwd(), 'guide');
 
-/**
- * @param options0
- * @param options0.pages
- * @param options0.pageData
- */
 export default function Guide({ pages, pageData }: any) {
   return (
     <div className="docs">
@@ -31,10 +26,6 @@ export const getStaticPaths = async () => {
   };
 };
 
-/**
- * @param options0
- * @param options0.params
- */
 export async function getStaticProps({ params }: any) {
   const pages = await getPages();
   const fullPath = path.join(pagesDirectory, `${params.id}.mdx`);

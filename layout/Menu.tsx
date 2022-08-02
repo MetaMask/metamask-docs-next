@@ -8,43 +8,37 @@ import { SiGithub } from 'react-icons/si';
 interface AppRoute {
   name: string;
   href: string;
-};
+}
 interface RouterLinksProps {
   routes: AppRoute[];
-};
+}
 
 const RouterLinks = ({ routes }: RouterLinksProps) => {
-  return <>
-    {routes.map(
-      (route, idx) =>
+  return (
+    <>
+      {routes.map((route, idx) => (
         <li className="link" key={`${route.name}-${idx}`}>
           <Link href={route.href}>
             <a>{route.name}</a>
           </Link>
         </li>
-    )}
-  </>
-}
+      ))}
+    </>
+  );
+};
 
 const Menu = () => {
   // const context = useContext(AppContext)
-  const handleClick = () => {
-    console.log("Open the Mobile Nav");
-    // context.toggleSidenav(!context.navOpen);
-  }
-
   const myAppRoutes: AppRoute[] = [
-    { name: "home", href: "/" },
-    { name: "guide", href: "/guide/ethereum-provider" }
+    { name: 'home', href: '/' },
+    { name: 'guide', href: '/guide/ethereum-provider' },
   ];
 
   return (
     <ul style={{ userSelect: 'none' }}>
       <RouterLinks routes={myAppRoutes} />
-      <li className='link'>
-        <a 
-            tabIndex={4} 
-            href='https://github.com/metamask/metamask-docs-next'>
+      <li className="link">
+        <a tabIndex={4} href="https://github.com/metamask/metamask-docs-next">
           <SiGithub />
         </a>
       </li>
@@ -53,6 +47,6 @@ const Menu = () => {
       </li> */}
     </ul>
   );
-}
+};
 
 export default Menu;

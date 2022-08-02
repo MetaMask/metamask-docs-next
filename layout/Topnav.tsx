@@ -6,6 +6,6 @@ const Topnav = () => {
       <Menu />
     </div>
   );
-}
+};
 
 export default Topnav;
