@@ -1,3 +1,5 @@
+.monaco-editor { position: absolute !important; }
+
 html,
 body {
   background-color: var(--color-background-default);
@@ -50,7 +52,6 @@ section {
   padding: 0;
   margin: 0;
 }
-
 section .docs {
   display: flex;
   height: 100%;

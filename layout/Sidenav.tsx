@@ -10,12 +10,14 @@ const Sidenav = ({ pages }: PropTypes) => {
     return <div>loading...</div>;
   }
 
-  if (pages.length === 0) { return <div>loading...</div> }
+  if (pages.length === 0) {
+    return <div>loading...</div>;
+  }
   return (
     <div className="sidenav">
       {pages.map((p: any, idx: number) => (
         <li className="link" key={idx}>
-          <Link href={p.id} >{p.meta.title}</Link>
+          <Link href={p.id}>{p.meta.title}</Link>
         </li>
       ))}
     </div>

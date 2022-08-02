@@ -1,6 +1,6 @@
-import _glob from "glob";
-import fs from "fs";
-import { promisify } from "util";
+import fs from 'fs';
+import { promisify } from 'util';
+import _glob from 'glob';
 import matter from 'gray-matter';
 
 const readFile = promisify(fs.readFile);
@@ -20,17 +20,16 @@ export interface PageMeta {
 }
 
 export const getPage = async (pagePath: string): Promise<Page> => {
-  const content = await readFile(pagePath, "utf8");
+  const content = await readFile(pagePath, 'utf8');
 
   const result = matter(content);
 
   return {
-    id: pagePath.replace(".mdx", "").replace("guide/", ""),
+    id: pagePath.replace('.mdx', '').replace('guide/', ''),
     path: pagePath,
     meta: result.data as PageMeta,
-    content: result.content
+    content: result.content,
   };
-
 };
 
 export const getPages = async (): Promise<Page[]> => {
@@ -42,15 +41,12 @@ export const getPages = async (): Promise<Page[]> => {
   return pages;
 };
 
-
 export const getGuideList = async (): Promise<any> => {
   return (await getPages()).map((page: Page) => {
     return {
       params: {
-        id: page.id
-      }
+        id: page.id,
+      },
     };
   });
 };
-
-export default getPages;
