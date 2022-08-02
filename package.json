@@ -1,12 +1,20 @@
 {
-  "name": "docs-site",
-  "version": "0.1.0",
+  "name": "metamask-docs-next",
+  "version": "0.0.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MetaMask/metamask-docs-next"
+  },
   "scripts": {
-    "dev": "next dev",
     "build": "next build && next export",
+    "dev": "next dev",
+    "lint": "yarn lint:eslint && yarn lint:misc --check",
+    "lint:eslint": "eslint . --cache --ext js,ts,tsx",
+    "lint:fix": "yarn lint:eslint --fix && yarn lint:misc --write",
+    "lint:misc": "prettier '**/*.json' '**/*.md' '!CHANGELOG.md' '**/*.yml' '!.yarnrc.yml' --ignore-path .gitignore --no-error-on-unmatched-pattern",
     "start": "next start",
-    "lint": "next lint"
+    "test": "echo 'no test specified' && exit 0"
   },
   "dependencies": {
     "@mdx-js/loader": "^2.1.2",
@@ -23,15 +31,38 @@
     "rehype-slug": "^5.0.1",
     "rehype-stringify": "^9.0.3",
     "remark-slug": "^7.0.1",
-    "sass": "^1.54.0",
-    "swr": "^1.3.0"
+    "sass": "^1.54.0"
   },
   "devDependencies": {
+    "@lavamoat/allow-scripts": "^2.0.3",
+    "@metamask/auto-changelog": "^2.3.0",
+    "@metamask/eslint-config": "^9.0.0",
+    "@metamask/eslint-config-jest": "^9.0.0",
+    "@metamask/eslint-config-nodejs": "^9.0.0",
+    "@metamask/eslint-config-typescript": "^9.0.1",
     "@types/node": "18.0.6",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.2",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.3.4",
+    "eslint-plugin-jsdoc": "^36.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1",
+    "prettier-plugin-packagejson": "^2.2.17",
     "typescript": "4.7.4"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "lavamoat": {
+    "allowScripts": {
+      "eslint-config-next>eslint-plugin-jsx-a11y>aria-query>@babel/runtime-corejs3>core-js-pure": false
+    }
   }
 }
