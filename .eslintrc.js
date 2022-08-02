@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
 
-  extends: ['@metamask/eslint-config'],
+  extends: ['@metamask/eslint-config', 'next'],
 
   overrides: [
     {
@@ -19,9 +19,11 @@ module.exports = {
   ],
 
   ignorePatterns: [
+    'node_modules/',
     '!.eslintrc.js',
     '!.prettierrc.js',
     'dist/',
+    'out/',
     'next-env.d.ts',
   ],
 };
