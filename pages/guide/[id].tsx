@@ -1,11 +1,12 @@
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 import Editor from '@monaco-editor/react';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { Children, useCallback, useEffect, useRef, useState } from 'react';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import Sidenav from '../../layout/Sidenav';
 import { getPages, getGuideList, Page } from '../../lib/getPages';
 import getCodeBlockModules, {
+  getCompiledWebpack,
   MonacoModule,
 } from '../../lib/getCodeBlockModules';
 
@@ -15,6 +16,8 @@ interface CodeBlockProps {
 }
 
 function makeCodeBlock(depModules: MonacoModule[]) {
+  // which block am i??
+  // compare children.text
   return function CodeBlock(props: CodeBlockProps) {
     const lang = props.children.props.className.replace('language-', '');
     const editorOptions = {
@@ -130,7 +133,13 @@ function makeCodeBlock(depModules: MonacoModule[]) {
   };
 }
 
-export default function Guide({ pages, pageData, depModules }: any) {
+export default function Guide({ pages, pageData, depModules, code2 }: any) {
+  useEffect(() => {
+    console.log('evallin');
+    // eslint-disable-next-line no-eval
+    eval(code2);
+  }, []);
+
   return (
     <div className="docs">
       <Sidenav pages={pages} />
@@ -155,12 +164,57 @@ export const getStaticPaths = async () => {
   };
 };
 
+const importRegex = /(?:(?:(?:import)|(?:export))(?:.)*?from\s+["']([^"']+)["'])|(?:require(?:\s+)?\(["']([^"']+)["']\))|(?:\/+\s+<reference\s+path=["']([^"']+)["']\s+\/>)/gmu;
+const codeBlockRegex = /```(js|javascript|typescript|ts)\n([\s\S]*?)```$/gmu;
+
+export interface CodeBlock {
+  imports: string[];
+  language: string;
+  code: string;
+}
+
 export async function getStaticProps({ params }: any): Promise<any> {
   const pages = await getPages();
 
   const currentPage = pages.find((page) => page.id === params.id);
   const result = await serialize((currentPage as Page).content);
-  const depModules = await getCodeBlockModules();
+
+  const codeBlocks = Array.from(
+    (currentPage as Page).content.matchAll(codeBlockRegex),
+  ).map(([, language, code]) => ({ language, code }));
+
+  console.log('codeBlocks', codeBlocks);
+
+  const imports: CodeBlock[] = codeBlocks?.map((block) => {
+    const arr = Array.from(block.code.matchAll(importRegex));
+    const localImports: string[] = [];
+
+    arr.forEach((item) => {
+      localImports.push(item[1]);
+    });
+
+    return {
+      ...block,
+      imports: localImports,
+    };
+  });
+
+  console.log('i got blocks on my nips', imports);
+
+  // get code blocks from markdown
+  const depModules = await getCodeBlockModules(imports);
+
+//   const code = `
+// // This function detects most providers injected at window.ethereum
+// import detectEthereumProvider from '@metamask/detect-provider';
+
+// const provider: any = await detectEthereumProvider();
+// await provider.request({ method: 'eth_requestAccounts' });
+// console.log('provider', provider);`;
+
+//   const codeBlockStrings = await getCompiledWebpack(code, 'typescript');
+
+  // console.log('DEP MOUDLES', depModules);
 
   return {
     props: {
@@ -170,6 +224,7 @@ export async function getStaticProps({ params }: any): Promise<any> {
         result,
       },
       depModules,
+      // codeBlockStrings,
     },
   };
 }

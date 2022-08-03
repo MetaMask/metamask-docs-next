@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import _glob from 'glob';
 import webpack from 'webpack';
+import { CodeBlock } from '../pages/guide/[id]';
 
 const readFile = promisify(fs.readFile);
 const glob = promisify(_glob);
@@ -20,54 +21,54 @@ export interface MonacoModule {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async function (): Promise<MonacoModule[]> {
-  const pagePaths = await glob(
-    'node_modules/@metamask/detect-provider/**/*.d.ts',
-  );
-  const implPaths = await glob(
-    'node_modules/@metamask/detect-provider/**/*.js',
-  );
+export default async function (
+  codeBlocks: CodeBlock[],
+): Promise<MonacoModule[]> {
+  const mods: MonacoModule[] = [];
 
-  const libs: { [k: string]: MonacoLib[] } = {};
+  for (const codeBlock of codeBlocks) {
+    const libs: { [k: string]: MonacoLib[] } = {};
 
-  const libName = '@metamask/detect-provider';
+    for (const libName of codeBlock.imports) {
+      const pagePaths = await glob(`node_modules/${libName}/**/*.d.ts`);
+      const implPaths = await glob(`node_modules/${libName}/**/*.js`);
 
-  for (const pagePath of pagePaths) {
-    if (libs[libName] === undefined) {
-      libs[libName] = [];
+      for (const pagePath of pagePaths) {
+        if (libs[libName] === undefined) {
+          libs[libName] = [];
+        }
+
+        libs[libName].push({
+          filename: pagePath,
+          content: await readFile(pagePath, 'utf8'),
+        });
+      }
+
+      const libImpls: { [k: string]: MonacoLib[] } = {};
+      for (const implPath of implPaths) {
+        if (libImpls[libName] === undefined) {
+          libImpls[libName] = [];
+        }
+
+        libImpls[libName].push({
+          filename: implPath,
+          content: await readFile(implPath, 'utf8'),
+        });
+      }
+
+      Object.keys(libs).forEach((libFile) => {
+        mods.push({
+          content: [
+            `declare module '${libName}' {`,
+            libs[libFile].map((l) => l.content).join('\n'),
+            '}',
+          ].join('\n'),
+          impls: libImpls[libName],
+          name: libName,
+        });
+      });
     }
-
-    libs[libName].push({
-      filename: pagePath,
-      content: await readFile(pagePath, 'utf8'),
-    });
   }
-
-  const libImpls: { [k: string]: MonacoLib[] } = {};
-  for (const implPath of implPaths) {
-    if (libImpls[libName] === undefined) {
-      libImpls[libName] = [];
-    }
-
-    libImpls[libName].push({
-      filename: implPath,
-      content: await readFile(implPath, 'utf8'),
-    });
-  }
-
-  const mods: any = [];
-  Object.keys(libs).forEach((libFile) => {
-    mods.push({
-      content: [
-        `declare module '${libName}' {`,
-        libs[libFile].map((l) => l.content).join('\n'),
-        '}',
-      ].join('\n'),
-      impls: libImpls[libName],
-      name: libName,
-    });
-  });
-  console.log('mods', mods);
 
   return mods;
 }
@@ -78,7 +79,6 @@ export const getCompiledWebpack = async (
   sourceCode: string,
   language: Language,
 ): Promise<any> => {
-  console.log('lang', language);
   // language to extension
   const languageToExtension = {
     typescript: 'ts',
@@ -95,7 +95,6 @@ export const getCompiledWebpack = async (
     'utf8',
   );
   const entry = `./${tmpPath}/${tempFile}`;
-  console.log('entry', entry);
 
   await new Promise((resolve, reject) => {
     webpack(
@@ -137,7 +136,6 @@ export const getCompiledWebpack = async (
         },
       },
       (err, stats) => {
-        console.log('webpack', stats?.compilation.errors);
         if (err) {
           reject(err);
         }
