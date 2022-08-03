@@ -89,7 +89,7 @@ function makeCodeBlock(depModules: MonacoModule[]) {
 
       monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
         module: monaco.languages.typescript.ModuleKind.ESNext,
-        target: monaco.languages.typescript.ScriptTarget.CommonJS,
+        target: monaco.languages.typescript.ScriptTarget.ESNext,
         allowNonTsExtensions: true,
         moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
         esModuleInterop: true,
@@ -105,8 +105,8 @@ function makeCodeBlock(depModules: MonacoModule[]) {
               tsProxy = proxy;
               tsProxy.getEmitOutput(editor.getModel().uri.toString())
                 .then((r: any) => {
-                  console.log(r.outputFiles[0].text);
-                  eval(r.outputFiles[0].text);
+                  const js = r.outputFiles[0].text;
+                  console.log(js);
                 });
             });
         });
