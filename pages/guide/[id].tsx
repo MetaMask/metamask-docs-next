@@ -17,6 +17,7 @@ interface CodeBlockProps {
 
 function makeCodeBlock(depModules: MonacoModule[]) {
   // which block am i??
+  // who am i?
   // compare children.text
   return function CodeBlock(props: CodeBlockProps) {
     const lang = props.children.props.className.replace('language-', '');
@@ -133,11 +134,16 @@ function makeCodeBlock(depModules: MonacoModule[]) {
   };
 }
 
-export default function Guide({ pages, pageData, depModules, code2 }: any) {
+export default function Guide({
+  pages,
+  pageData,
+  depModules,
+  codeBlockStrings,
+}: any) {
   useEffect(() => {
     console.log('evallin');
     // eslint-disable-next-line no-eval
-    eval(code2);
+    eval(codeBlockStrings);
   }, []);
 
   return (
@@ -202,17 +208,14 @@ export async function getStaticProps({ params }: any): Promise<any> {
   // get code blocks from markdown
   const depModules = await getCodeBlockModules(imports);
 
-//   const code = `
-// // This function detects most providers injected at window.ethereum
-// import detectEthereumProvider from '@metamask/detect-provider';
+  const { code } = codeBlocks[0];
 
-// const provider: any = await detectEthereumProvider();
-// await provider.request({ method: 'eth_requestAccounts' });
-// console.log('provider', provider);`;
+  const codeBlockStrings = await getCompiledWebpack(
+    code,
+    codeBlocks[0].language as any,
+  );
 
-//   const codeBlockStrings = await getCompiledWebpack(code, 'typescript');
-
-  // console.log('DEP MOUDLES', depModules);
+  console.log('DEP MOUDLES', codeBlockStrings);
 
   return {
     props: {
@@ -222,7 +225,7 @@ export async function getStaticProps({ params }: any): Promise<any> {
         result,
       },
       depModules,
-      // codeBlockStrings,
+      codeBlockStrings,
     },
   };
 }
