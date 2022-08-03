@@ -5,14 +5,9 @@ import React, { useCallback, useRef, useState } from 'react';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import Sidenav from '../../layout/Sidenav';
 import { getPages, getGuideList, Page } from '../../lib/getPages';
-import getCodeBlockModules, { MonacoModule } from '../../lib/getCodeBlockModules';
-
-import detectProvider from '@metamask/detect-provider';
-
-interface PropTypes {
-  defaultValue: string;
-  depModules: MonacoModule[];
-}
+import getCodeBlockModules, {
+  MonacoModule,
+} from '../../lib/getCodeBlockModules';
 
 interface CodeBlockProps {
   children: React.ReactElement;
@@ -21,7 +16,7 @@ interface CodeBlockProps {
 
 function makeCodeBlock(depModules: MonacoModule[]) {
   return function CodeBlock(props: CodeBlockProps) {
-    const lang = props.children.props.className.replace("language-", "");
+    const lang = props.children.props.className.replace('language-', '');
     const editorOptions = {
       scrollbar: {
         verticalHasArrows: true,
@@ -62,59 +57,63 @@ function makeCodeBlock(depModules: MonacoModule[]) {
       }
     }, []);
 
-    const handleEditorDidMount = useCallback((editor: any, monaco: any) => {
-      console.log(depModules);
-      depModules.forEach((depModule) => {
-        monaco.languages.typescript.typescriptDefaults.addExtraLib(
-          depModule.content,
-          `file:///node_modules/${depModule.name}`
-        );
-
-        depModule.impls.forEach((impl) => {
+    const handleEditorDidMount = useCallback(
+      (editor: any, monaco: any) => {
+        console.log(depModules);
+        depModules.forEach((depModule) => {
           monaco.languages.typescript.typescriptDefaults.addExtraLib(
-            impl.content,
-            `file:///${impl.filename}`
+            depModule.content,
+            `file:///node_modules/${depModule.name}`,
           );
+
+          depModule.impls.forEach((impl) => {
+            monaco.languages.typescript.typescriptDefaults.addExtraLib(
+              impl.content,
+              `file:///${impl.filename}`,
+            );
+          });
         });
-      });
 
-      monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
-        target: monaco.languages.typescript.ScriptTarget.ES2022,
-        moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
-        module: monaco.languages.typescript.ModuleKind.ES2022,
-        allowNonTsExtensions: true,
-        allowJs : true,
-        checkJs: true
-      });
+        monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+          target: monaco.languages.typescript.ScriptTarget.ES2022,
+          moduleResolution:
+            monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+          module: monaco.languages.typescript.ModuleKind.ES2022,
+          allowNonTsExtensions: true,
+          allowJs: true,
+          checkJs: true,
+        });
 
-      monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
-        module: monaco.languages.typescript.ModuleKind.ESNext,
-        target: monaco.languages.typescript.ScriptTarget.ESNext,
-        allowNonTsExtensions: true,
-        moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
-        esModuleInterop: true,
-        noEmit: false
-      });
+        monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+          module: monaco.languages.typescript.ModuleKind.ESNext,
+          target: monaco.languages.typescript.ScriptTarget.ESNext,
+          allowNonTsExtensions: true,
+          moduleResolution:
+            monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+          esModuleInterop: true,
+          noEmit: false,
+        });
 
-      var tsProxy: any;
+        let tsProxy: any;
 
-      monaco.languages.typescript.getTypeScriptWorker()
-        .then(function(worker: any) {
-          worker(editor.getModel().uri)
-            .then(function(proxy: any) {
+        monaco.languages.typescript
+          .getTypeScriptWorker()
+          .then(function (worker: any) {
+            worker(editor.getModel().uri).then(function (proxy: any) {
               tsProxy = proxy;
-              tsProxy.getEmitOutput(editor.getModel().uri.toString())
+              tsProxy
+                .getEmitOutput(editor.getModel().uri.toString())
                 .then((r: any) => {
                   const js = r.outputFiles[0].text;
                   console.log(js);
                 });
             });
-        });
+          });
 
-      valueGetter.current = editor;
-      handleEditorChange();
-      editor.onDidChangeModelContent(handleEditorChange);
-    },
+        valueGetter.current = editor;
+        handleEditorChange();
+        editor.onDidChangeModelContent(handleEditorChange);
+      },
       [handleEditorChange],
     );
 
@@ -128,7 +127,7 @@ function makeCodeBlock(depModules: MonacoModule[]) {
         options={editorOptions}
       />
     );
-  }
+  };
 }
 
 export default function Guide({ pages, pageData, depModules }: any) {
