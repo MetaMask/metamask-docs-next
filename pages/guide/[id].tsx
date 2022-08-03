@@ -199,8 +199,6 @@ export async function getStaticProps({ params }: any): Promise<any> {
     };
   });
 
-  console.log('i got blocks on my nips', imports);
-
   // get code blocks from markdown
   const depModules = await getCodeBlockModules(imports);
 
