@@ -63,7 +63,6 @@ function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
 
     const handleEditorDidMount = useCallback(
       (editor: any, monaco: any) => {
-        console.log(depModules);
         depModules.forEach((depModule) => {
           monaco.languages.typescript.typescriptDefaults.addExtraLib(
             depModule.content,
@@ -109,7 +108,6 @@ function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
                 .getEmitOutput(editor.getModel().uri.toString())
                 .then((r: any) => {
                   const js = r.outputFiles[0].text;
-                  console.log(js);
                 });
             });
           });
@@ -167,7 +165,6 @@ export default function Guide({
 
 export const getStaticPaths = async () => {
   const paths = await getGuideList();
-  console.log(paths);
   return {
     paths,
     fallback: false,
@@ -218,7 +215,6 @@ export async function getStaticProps({ params }: any): Promise<any> {
     const codeBlockStrings = await getCompiledWebpack(code, language as any);
     codeBlockMap[code.toString()] = codeBlockStrings;
   }
-  console.log('codeBlockMap', codeBlockMap);
 
   return {
     props: {
