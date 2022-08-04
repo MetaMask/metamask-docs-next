@@ -22,7 +22,7 @@ The Ethereum JavaScript provider API is specified by [EIP-1193](https://eips.eth
 // This function detects most providers injected at window.ethereum
 import detectEthereumProvider from '@metamask/detect-provider';
 
-const provider: any | null = await detectEthereumProvider();
+const provider = await detectEthereumProvider();
 
 if (provider) {
   // From now on, this should always be true:
