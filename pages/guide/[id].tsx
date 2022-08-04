@@ -1,7 +1,7 @@
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 import Editor from '@monaco-editor/react';
-import React, { Children, useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import Sidenav from '../../layout/Sidenav';
 import { getPages, getGuideList, Page } from '../../lib/getPages';
@@ -97,20 +97,21 @@ function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
           noEmit: false,
         });
 
-        let tsProxy: any;
+        // compile ts to js - use this for codeblocks with tabbed transpilation of examples
+        /* let tsProxy: any;
 
-        monaco.languages.typescript
-          .getTypeScriptWorker()
-          .then(function (worker: any) {
-            worker(editor.getModel().uri).then(function (proxy: any) {
-              tsProxy = proxy;
-              tsProxy
-                .getEmitOutput(editor.getModel().uri.toString())
-                .then((r: any) => {
-                  const js = r.outputFiles[0].text;
-                });
-            });
-          });
+         * monaco.languages.typescript
+         *   .getTypeScriptWorker()
+         *   .then(function (worker: any) {
+         *     worker(editor.getModel().uri).then(function (proxy: any) {
+         *       tsProxy = proxy;
+         *       tsProxy
+         *         .getEmitOutput(editor.getModel().uri.toString())
+         *         .then((r: any) => {
+         *           const js = r.outputFiles[0].text;
+         *         });
+         *     });
+         *   }); */
 
         valueGetter.current = editor;
         handleEditorChange();
@@ -190,7 +191,6 @@ export async function getStaticProps({ params }: any): Promise<any> {
   const codeBlocks = Array.from(
     (currentPage as Page).content.matchAll(codeBlockRegex),
   ).map(([, language, code]) => ({ language, code }));
-
 
   const imports: CodeBlock[] = codeBlocks?.map((block) => {
     const arr = Array.from(block.code.matchAll(importRegex));
