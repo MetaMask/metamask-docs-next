@@ -22,12 +22,13 @@ The Ethereum JavaScript provider API is specified by [EIP-1193](https://eips.eth
 // This function detects most providers injected at window.ethereum
 import detectEthereumProvider from '@metamask/detect-provider';
 
-const provider: any | null = await detectEthereumProvider();
+const provider = await detectEthereumProvider();
 
 if (provider) {
   // From now on, this should always be true:
   // provider === window.ethereum
-  console.log(provider);
+  const accounts = await provider.request({method: "eth_requestAccounts"});
+  console.log(accounts);
   // initialize your app
 } else {
   console.log('Please install MetaMask!');
@@ -36,17 +37,17 @@ if (provider) {
 
 The Ethereum JavaScript provider API is specified by [EIP-1193](https://eips.ethereum.org/EIPS/eip-1193).
 
-```javascript
+```typescript
 // This function detects most providers injected at window.ethereum
 import detectEthereumProvider from '@metamask/detect-provider';
 
-const provider = await detectEthereumProvider();
+const c = await detectEthereumProvider();
 
-if (provider) {
+if (c) {
   // From now on, this should always be true:
   // provider === window.ethereum
-  startApp(provider); // initialize your app
+  console.log(c); // initialize your app
 } else {
-  console.log('Please install MetaMask!');
+  console.log('Please do something');
 }
 ```

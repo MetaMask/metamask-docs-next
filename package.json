@@ -35,7 +35,9 @@
     "rehype-slug": "^5.0.1",
     "rehype-stringify": "^9.0.3",
     "remark-slug": "^7.0.1",
-    "sass": "^1.54.0"
+    "sass": "^1.54.0",
+    "ts-loader": "^9.3.1",
+    "webpack": "^5.74.0"
   },
   "devDependencies": {
     "@lavamoat/allow-scripts": "^2.0.3",
@@ -59,7 +61,7 @@
     "eslint-plugin-prettier": "^3.3.1",
     "prettier": "^2.2.1",
     "prettier-plugin-packagejson": "^2.2.17",
-    "typescript": "4.7.4"
+    "typescript": "^4.7.4"
   },
   "engines": {
     "node": ">=14.0.0"
