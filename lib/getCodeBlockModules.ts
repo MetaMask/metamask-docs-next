@@ -136,6 +136,7 @@ export const getCompiledWebpack = async (
         },
       },
       (err, stats) => {
+        console.log(stats?.compilation.errors);
         if (err) {
           reject(err);
         }

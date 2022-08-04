@@ -15,7 +15,7 @@ interface CodeBlockProps {
   defaultValue: string;
 }
 
-function makeCodeBlock(depModules: MonacoModule[]) {
+function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
   // which block am i??
   // who am i?
   // compare children.text
@@ -123,13 +123,23 @@ function makeCodeBlock(depModules: MonacoModule[]) {
 
     const code = props.children.props.children;
     return (
-      <Editor
-        height={height}
-        language={lang}
-        onMount={handleEditorDidMount}
-        defaultValue={code}
-        options={editorOptions}
-      />
+      <>
+        <button
+          onClick={() => {
+            // eslint-disable-next-line no-eval
+            eval(codeBlockMap[code]);
+          }}
+        >
+          Run
+        </button>
+        <Editor
+          height={height}
+          language={lang}
+          onMount={handleEditorDidMount}
+          defaultValue={code}
+          options={editorOptions}
+        />
+      </>
     );
   };
 }
@@ -138,14 +148,8 @@ export default function Guide({
   pages,
   pageData,
   depModules,
-  codeBlockStrings,
+  codeBlockMap,
 }: any) {
-  useEffect(() => {
-    console.log('evallin');
-    // eslint-disable-next-line no-eval
-    eval(codeBlockStrings);
-  }, []);
-
   return (
     <div className="docs">
       <Sidenav pages={pages} />
@@ -153,7 +157,7 @@ export default function Guide({
         <MDXRemote
           {...pageData.result}
           components={{
-            pre: makeCodeBlock(depModules),
+            pre: makeCodeBlock(depModules, codeBlockMap),
           }}
         />
       </div>
@@ -170,7 +174,8 @@ export const getStaticPaths = async () => {
   };
 };
 
-const importRegex = /(?:(?:(?:import)|(?:export))(?:.)*?from\s+["']([^"']+)["'])|(?:require(?:\s+)?\(["']([^"']+)["']\))|(?:\/+\s+<reference\s+path=["']([^"']+)["']\s+\/>)/gmu;
+const importRegex =
+  /(?:(?:(?:import)|(?:export))(?:.)*?from\s+["']([^"']+)["'])|(?:require(?:\s+)?\(["']([^"']+)["']\))|(?:\/+\s+<reference\s+path=["']([^"']+)["']\s+\/>)/gmu;
 const codeBlockRegex = /```(js|javascript|typescript|ts)\n([\s\S]*?)```$/gmu;
 
 export interface CodeBlock {
@@ -189,7 +194,6 @@ export async function getStaticProps({ params }: any): Promise<any> {
     (currentPage as Page).content.matchAll(codeBlockRegex),
   ).map(([, language, code]) => ({ language, code }));
 
-  console.log('codeBlocks', codeBlocks);
 
   const imports: CodeBlock[] = codeBlocks?.map((block) => {
     const arr = Array.from(block.code.matchAll(importRegex));
@@ -207,15 +211,14 @@ export async function getStaticProps({ params }: any): Promise<any> {
 
   // get code blocks from markdown
   const depModules = await getCodeBlockModules(imports);
+  const codeBlockMap: any = {};
 
-  const { code } = codeBlocks[0];
-
-  const codeBlockStrings = await getCompiledWebpack(
-    code,
-    codeBlocks[0].language as any,
-  );
-
-  console.log('DEP MOUDLES', codeBlockStrings);
+  for (const block of codeBlocks) {
+    const { code, language } = block;
+    const codeBlockStrings = await getCompiledWebpack(code, language as any);
+    codeBlockMap[code.toString()] = codeBlockStrings;
+  }
+  console.log('codeBlockMap', codeBlockMap);
 
   return {
     props: {
@@ -225,7 +228,7 @@ export async function getStaticProps({ params }: any): Promise<any> {
         result,
       },
       depModules,
-      codeBlockStrings,
+      codeBlockMap,
     },
   };
 }
