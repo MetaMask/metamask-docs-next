@@ -1,25 +1,52 @@
-import glob from 'glob';
+import fs from 'fs';
+import { promisify } from 'util';
+import _glob from 'glob';
+import matter from 'gray-matter';
 
-const getPages = (): Promise<string[]> => {
-  return new Promise((resolve, reject) => {
-    glob('guide/*.mdx', (err, globs) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(globs.map((g) => g.replace('.mdx', '').replace('guide/', '')));
-    });
-  });
+const readFile = promisify(fs.readFile);
+const glob = promisify(_glob);
+
+export interface Page {
+  id: string;
+  path: string;
+  meta: PageMeta;
+  content: string;
+}
+
+export interface PageMeta {
+  title: string;
+  date: string;
+  isIndex: boolean;
+}
+
+export const getPage = async (pagePath: string): Promise<Page> => {
+  const content = await readFile(pagePath, 'utf8');
+
+  const result = matter(content);
+
+  return {
+    id: pagePath.replace('.mdx', '').replace('guide/', ''),
+    path: pagePath,
+    meta: result.data as PageMeta,
+    content: result.content,
+  };
+};
+
+export const getPages = async (): Promise<Page[]> => {
+  const pagePaths = await glob('guide/*.mdx');
+  const pages = [];
+  for (const pagePath of pagePaths) {
+    pages.push(await getPage(pagePath));
+  }
+  return pages;
 };
 
 export const getGuideList = async (): Promise<any> => {
-  return (await getPages()).map((path) => {
+  return (await getPages()).map((page: Page) => {
     return {
       params: {
-        id: path,
+        id: page.id,
       },
     };
   });
 };
-
-export default getPages;

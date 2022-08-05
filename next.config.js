@@ -5,4 +5,19 @@ module.exports = {
     // config instead of the one nextjs defaults to.
     // ignoreDuringBuilds: true,
   },
+  webpack: (config) => {
+    // Important: return the modified config
+    return {
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...config.resolve.alias,
+          fs: 'memfs',
+          module: 'empty',
+          child_process: 'empty',
+        },
+      },
+    };
+  },
 };
