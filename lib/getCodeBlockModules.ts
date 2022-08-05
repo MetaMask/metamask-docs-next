@@ -2,12 +2,14 @@ import { promisify } from 'util';
 import path from 'path';
 import fs from 'fs';
 import _glob from 'glob';
-import webpack from 'webpack';
+import _webpack from 'webpack';
 import { CodeBlock } from '../pages/guide/[id]';
 
 const readFile = promisify(fs.readFile);
 const glob = promisify(_glob);
-const rmDir = promisify(fs.rmdir);
+const rmDir = promisify(fs.rm);
+const webpack = promisify(_webpack);
+const mkdtemp = promisify(fs.mkdtemp);
 
 export interface MonacoLib {
   filename: string;
@@ -21,7 +23,7 @@ export interface MonacoModule {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async function (
+export default async function(
   codeBlocks: CodeBlock[],
 ): Promise<MonacoModule[]> {
   const mods: MonacoModule[] = [];
@@ -87,7 +89,6 @@ export const getCompiledWebpack = async (
 
   // write source code to a temp file
   const tempFile = `index.${languageToExtension[language] || language || 'js'}`;
-  const mkdtemp = promisify(fs.mkdtemp);
   const tmpPath = await mkdtemp(`codeblock-`);
   await fs.promises.writeFile(
     path.resolve(tmpPath, tempFile),
@@ -96,54 +97,49 @@ export const getCompiledWebpack = async (
   );
   const entry = `./${tmpPath}/${tempFile}`;
 
-  await new Promise((resolve, reject) => {
-    webpack(
-      {
-        entry,
-        experiments: {
-          topLevelAwait: true,
-        },
-        optimization: {
-          removeAvailableModules: false,
-          minimize: false,
-          minimizer: [],
-          removeEmptyChunks: false,
-          splitChunks: false,
-        },
-        module: {
-          rules: [
+  const stats = await webpack({
+    entry,
+    experiments: {
+      topLevelAwait: true,
+    },
+    optimization: {
+      removeAvailableModules: false,
+      minimize: false,
+      minimizer: [],
+      removeEmptyChunks: false,
+      splitChunks: false,
+    },
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/u,
+          use: [
             {
-              test: /\.tsx?$/u,
-              use: [
-                {
-                  loader: 'ts-loader',
-                  options: {
-                    configFile: 'codeblock.tsconfig.json',
-                  },
-                },
-              ],
-              exclude: /node_modules/u,
+              loader: 'ts-loader',
+              options: {
+                configFile: 'codeblock.tsconfig.json',
+              },
             },
           ],
+          exclude: /node_modules/u,
         },
-        resolve: {
-          extensions: ['.tsx', '.ts', '.js'],
-          alias: {},
-        },
-        output: {
-          path: path.resolve(tmpPath, 'dist'),
-          filename: 'bundle.js',
-        },
-      },
-      (err, stats) => {
-        console.log(stats?.compilation.errors);
-        if (err) {
-          reject(err);
-        }
-        resolve(stats);
-      },
-    );
-  });
+      ],
+    },
+    resolve: {
+      extensions: ['.tsx', '.ts', '.js'],
+      alias: {},
+    },
+    output: {
+      path: path.resolve(tmpPath, 'dist'),
+      filename: 'bundle.js',
+    },
+  } as any);
+
+  if ((stats as any).compilation.errors.length > 0) {
+    await rmDir(tmpPath, { recursive: true });
+    throw new Error((stats as any).compilation.errors.map((e: any) => e.toString()).join("\n"));
+  }
+
   const resultPath = path.resolve(tmpPath, 'dist', 'bundle.js');
   const result = await readFile(resultPath, 'utf8');
   await rmDir(tmpPath, { recursive: true });

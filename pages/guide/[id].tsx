@@ -1,7 +1,7 @@
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 import Editor from '@monaco-editor/react';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import Sidenav from '../../layout/Sidenav';
 import { getPages, getGuideList, Page } from '../../lib/getPages';
@@ -10,17 +10,24 @@ import getCodeBlockModules, {
   MonacoModule,
 } from '../../lib/getCodeBlockModules';
 
+import {inspect} from "util";
+
 interface CodeBlockProps {
   children: React.ReactElement;
   defaultValue: string;
 }
 
 function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
+
   // which block am i??
   // who am i?
   // compare children.text
   return function CodeBlock(props: CodeBlockProps) {
-    const lang = props.children.props.className.replace('language-', '');
+    const opts = props.children.props.className.replace('language-', '');
+    const lang = opts.split("-")[0];
+    const autorun = !!opts.split("-")[1];
+    const code = props.children.props.children;
+
     const editorOptions = {
       scrollbar: {
         verticalHasArrows: true,
@@ -42,12 +49,14 @@ function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
       theme: 'vs-dark',
     } as monacoEditor.editor.IEditorConstructionOptions;
 
-    const MAX_HEIGHT = 600;
+    const MAX_HEIGHT = Infinity;
     const MIN_COUNT_OF_LINES = 3;
     const LINE_HEIGHT = 20;
 
     const [height, setHeight] = useState(170);
     const valueGetter = useRef();
+
+    const [logs, setLogs] = useState<any[]>([]);
 
     const handleEditorChange = useCallback(() => {
       const countOfLines = (valueGetter as any).current
@@ -120,17 +129,60 @@ function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
       [handleEditorChange],
     );
 
-    const code = props.children.props.children;
+    const hackedLog = (level: "log" | "error") => {
+      return (...things: any) => {
+        console.log("Paynus");
+        (console as any)[level](...things);
+
+        setLogs((lastLog) => {
+          return [
+            ...lastLog,
+            {
+              line: things.map((t: any) => {
+                if (typeof t === "object" && Array.isArray(t) === false) {
+                  const copy: any = {};
+                  Object
+                    .keys(t)
+                    .filter((k) => !k.startsWith("_"))
+                    .forEach((k) => copy[k] = t[k]);
+
+                  return inspect(
+                    copy,
+                    {depth: 1, showHidden: false, showProxy: false }
+                  );
+                }
+                if (typeof t === "string") {
+                  return t;
+                }
+
+                return inspect(t, {depth: 1, showHidden: false, showProxy: false });
+              }).join(" "),
+              level
+            }
+          ];
+        });
+      };
+    };
+
+    const runExample = () => {
+      // eslint-disable-next-line no-eval
+      const consoleLog = hackedLog("log");
+      const consoleError = hackedLog("error");
+      eval(codeBlockMap[code].replace(/console.log/g, "consoleLog"));
+      eval(codeBlockMap[code].replace(/console.error/g, "consoleError"));
+    };
+
+    useEffect(() => {
+      if (autorun) { runExample(); }
+    }, []);
+
     return (
       <>
-        <button
-          onClick={() => {
-            // eslint-disable-next-line no-eval
-            eval(codeBlockMap[code]);
-          }}
+      {autorun === false && <button
+          onClick={runExample}
         >
           Run
-        </button>
+        </button>}
         <Editor
           height={height}
           language={lang}
@@ -138,6 +190,21 @@ function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
           defaultValue={code}
           options={editorOptions}
         />
+        { logs.length > 0 &&
+          <div className="log-lines">
+            <div className="log-lines-controls">
+              Console <button onClick={() => setLogs([]) }>Clear</button>
+            </div>
+            <div className="log-lines-container">
+              {logs.map((ll, index) => {
+                return (<li className="no-style dense" key={index}>
+                  <pre key={index}>{ll.line}</pre>
+                  <hr />
+                </li>);
+              })}
+            </div>
+          </div>
+        }
       </>
     );
   };
@@ -174,7 +241,7 @@ export const getStaticPaths = async () => {
 
 const importRegex =
   /(?:(?:(?:import)|(?:export))(?:.)*?from\s+["']([^"']+)["'])|(?:require(?:\s+)?\(["']([^"']+)["']\))|(?:\/+\s+<reference\s+path=["']([^"']+)["']\s+\/>)/gmu;
-const codeBlockRegex = /```(js|javascript|typescript|ts)\n([\s\S]*?)```$/gmu;
+const codeBlockRegex = /```(js|javascript|typescript|ts)(?:-autorun)?\n([\s\S]*?)```$/gmu
 
 export interface CodeBlock {
   imports: string[];

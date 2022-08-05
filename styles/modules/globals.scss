@@ -24,6 +24,20 @@ a {
   -webkit-font-smoothing: antialiased !important;
 }
 
+li.no-style {
+  list-style-type: none;
+}
+
+.log-lines {
+  max-width: 1080px;
+  overflow: auto;
+}
+
+li.dense > pre {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
 main {
   width: 100%;
   display: grid;
