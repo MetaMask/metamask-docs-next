@@ -10,6 +10,8 @@ import getCodeBlockModules, {
   getCompiledWebpack,
   MonacoModule,
 } from '../../lib/getCodeBlockModules';
+import Tip from '../../components/Tip';
+import Warning from '../../components/Warning';
 
 interface CodeBlockProps {
   children: React.ReactElement;
@@ -237,6 +239,8 @@ export default function Guide({
           {...pageData.result}
           components={{
             pre: makeCodeBlock(depModules, codeBlockMap),
+            Tip,
+            Warning,
           }}
         />
       </div>
