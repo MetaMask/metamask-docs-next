@@ -23,7 +23,7 @@ export interface MonacoModule {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async function(
+export default async function (
   codeBlocks: CodeBlock[],
 ): Promise<MonacoModule[]> {
   const mods: MonacoModule[] = [];
@@ -137,7 +137,11 @@ export const getCompiledWebpack = async (
 
   if ((stats as any).compilation.errors.length > 0) {
     await rmDir(tmpPath, { recursive: true });
-    throw new Error((stats as any).compilation.errors.map((e: any) => e.toString()).join("\n"));
+    throw new Error(
+      (stats as any).compilation.errors
+        .map((e: any) => e.toString())
+        .join('\n'),
+    );
   }
 
   const resultPath = path.resolve(tmpPath, 'dist', 'bundle.js');

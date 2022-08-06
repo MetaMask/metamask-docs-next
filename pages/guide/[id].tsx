@@ -1,3 +1,4 @@
+import { inspect } from 'util';
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 import Editor from '@monaco-editor/react';
@@ -10,22 +11,19 @@ import getCodeBlockModules, {
   MonacoModule,
 } from '../../lib/getCodeBlockModules';
 
-import {inspect} from "util";
-
 interface CodeBlockProps {
   children: React.ReactElement;
   defaultValue: string;
 }
 
 function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
-
   // which block am i??
   // who am i?
   // compare children.text
   return function CodeBlock(props: CodeBlockProps) {
     const opts = props.children.props.className.replace('language-', '');
-    const lang = opts.split("-")[0];
-    const autorun = !!opts.split("-")[1];
+    const lang = opts.split('-')[0];
+    const autorun = Boolean(opts.split('-')[1]);
     const code = props.children.props.children;
 
     const editorOptions = {
@@ -68,6 +66,7 @@ function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
           setHeight(currentHeight);
         }
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleEditorDidMount = useCallback(
@@ -129,60 +128,72 @@ function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
       [handleEditorChange],
     );
 
-    const hackedLog = (level: "log" | "error") => {
+    const hackedLog = (level: 'log' | 'error') => {
       return (...things: any) => {
-        console.log("Paynus");
+        console.log('Paynus');
         (console as any)[level](...things);
 
         setLogs((lastLog) => {
           return [
             ...lastLog,
             {
-              line: things.map((t: any) => {
-                if (typeof t === "object" && Array.isArray(t) === false) {
-                  const copy: any = {};
-                  Object
-                    .keys(t)
-                    .filter((k) => !k.startsWith("_"))
-                    .forEach((k) => copy[k] = t[k]);
+              line: things
+                .map((t: any) => {
+                  if (typeof t === 'object' && Array.isArray(t) === false) {
+                    const copy: any = {};
+                    Object.keys(t)
+                      .filter((k) => !k.startsWith('_'))
+                      .forEach((k) => (copy[k] = t[k]));
 
-                  return inspect(
-                    copy,
-                    {depth: 1, showHidden: false, showProxy: false }
-                  );
-                }
-                if (typeof t === "string") {
-                  return t;
-                }
+                    return inspect(copy, {
+                      depth: 1,
+                      showHidden: false,
+                      showProxy: false,
+                    });
+                  }
 
-                return inspect(t, {depth: 1, showHidden: false, showProxy: false });
-              }).join(" "),
-              level
-            }
+                  if (typeof t === 'string') {
+                    return t;
+                  }
+
+                  return inspect(t, {
+                    depth: 1,
+                    showHidden: false,
+                    showProxy: false,
+                  });
+                })
+                .join(' '),
+              level,
+            },
           ];
         });
       };
     };
 
     const runExample = () => {
+      // these are used to override the console.log and console.error inside the example
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const consoleLog = hackedLog('log');
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const consoleError = hackedLog('error');
       // eslint-disable-next-line no-eval
-      const consoleLog = hackedLog("log");
-      const consoleError = hackedLog("error");
-      eval(codeBlockMap[code].replace(/console.log/g, "consoleLog"));
-      eval(codeBlockMap[code].replace(/console.error/g, "consoleError"));
+      eval(
+        codeBlockMap[code]
+          .replace(/console.log/gu, 'consoleLog')
+          .replace(/console.error/gu, 'consoleError'),
+      );
     };
 
     useEffect(() => {
-      if (autorun) { runExample(); }
+      if (autorun) {
+        runExample();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
       <>
-      {autorun === false && <button
-          onClick={runExample}
-        >
-          Run
-        </button>}
+        {autorun === false && <button onClick={runExample}>Run</button>}
         <Editor
           height={height}
           language={lang}
@@ -190,21 +201,23 @@ function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
           defaultValue={code}
           options={editorOptions}
         />
-        { logs.length > 0 &&
+        {logs.length > 0 && (
           <div className="log-lines">
             <div className="log-lines-controls">
-              Console <button onClick={() => setLogs([]) }>Clear</button>
+              Console <button onClick={() => setLogs([])}>Clear</button>
             </div>
             <div className="log-lines-container">
               {logs.map((ll, index) => {
-                return (<li className="no-style dense" key={index}>
-                  <pre key={index}>{ll.line}</pre>
-                  <hr />
-                </li>);
+                return (
+                  <li className="no-style dense" key={index}>
+                    <pre key={index}>{ll.line}</pre>
+                    <hr />
+                  </li>
+                );
               })}
             </div>
           </div>
-        }
+        )}
       </>
     );
   };
@@ -241,7 +254,8 @@ export const getStaticPaths = async () => {
 
 const importRegex =
   /(?:(?:(?:import)|(?:export))(?:.)*?from\s+["']([^"']+)["'])|(?:require(?:\s+)?\(["']([^"']+)["']\))|(?:\/+\s+<reference\s+path=["']([^"']+)["']\s+\/>)/gmu;
-const codeBlockRegex = /```(js|javascript|typescript|ts)(?:-autorun)?\n([\s\S]*?)```$/gmu
+const codeBlockRegex =
+  /```(js|javascript|typescript|ts)(?:-autorun)?\n([\s\S]*?)```$/gmu;
 
 export interface CodeBlock {
   imports: string[];
