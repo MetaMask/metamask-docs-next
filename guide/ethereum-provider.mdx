@@ -26,8 +26,10 @@ const provider: any | null = await detectEthereumProvider();
 
 if (provider) {
   // From now on, this should always be true:
-  // provider === window.ethereum
-  console.log(provider);
+  console.log("oooh", "yaaaaa", provider,[1,2,3, {a: 123, b: 321 }]);
+  console.log("oooh", "yaaaaa");
+  console.log(provider)
+  console.log([1,2,3, {a: 123, b: 321 }]);
   // initialize your app
 } else {
   console.log('Please install MetaMask!');
@@ -48,5 +50,8 @@ if (provider) {
   startApp(provider); // initialize your app
 } else {
   console.log('Please install MetaMask!');
+}
+function startApp() {
+  console.log("starting app now that metamask is ready");
 }
 ```

@@ -20,9 +20,41 @@ Note that **over the course of 2020**, we introduced significant changes to this
 
 To verify if the browser is running MetaMask, copy and paste the code snippet below in the developer console of your web browser:
 
-```javascript
+<button className="enableEthereumButton btn">Enable Ethereum</button>
+<button disabled className="sendEthButton btn">Send Eth</button>
+
+```javascript-autorun
 if (typeof window.ethereum !== 'undefined') {
-  console.log('MetaMask is installed!');
+  const ethereumButton = document.querySelector('.enableEthereumButton');
+  const sendEthButton = document.querySelector('.sendEthButton');
+
+  let accounts = [];
+
+  //Sending Ethereum to an address
+  sendEthButton.addEventListener('click', () => {
+    ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [{
+        from: accounts[0],
+        to: '0x2f318C334780961FB129D2a6c30D0763d9a5C970',
+        value: '0x29a2241af62c0000',
+        gasPrice: '0x09184e72a000',
+        gas: '0x2710',
+      }],
+    })
+      .then((txHash) => console.log(txHash))
+      .catch(console.error);
+  });
+
+  ethereumButton.addEventListener('click', async () => {
+    await getAccount();
+    sendEthButton.disabled = false;
+    ethereumButton.disabled = true;
+  });
+
+  async function getAccount() {
+    accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+  }
 }
 ```
 
