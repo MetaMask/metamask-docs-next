@@ -7,9 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ## [0.0.2]
-### Uncategorized
+### Added
 - Update CHANGELOG.md
-- 0.0.1
 - Changed :::tip to Tip component and Warning
 - Added Tip and Warning components
 - Fixed linting
