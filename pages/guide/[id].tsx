@@ -12,6 +12,7 @@ import getCodeBlockModules, {
 } from '../../lib/getCodeBlockModules';
 import Tip from '../../components/Tip';
 import Warning from '../../components/Warning';
+import { GetStaticProps } from 'next';
 
 interface CodeBlockProps {
   children: React.ReactElement;
@@ -267,10 +268,10 @@ export interface CodeBlock {
   code: string;
 }
 
-export async function getStaticProps({ params }: any): Promise<any> {
+export const getStaticProps: GetStaticProps<any, any> = async (context) => {
   const pages = await getPages();
 
-  const currentPage = pages.find((page) => page.id === params.id);
+  const currentPage = pages.find((page) => page.id === context.params.id);
   const result = await serialize((currentPage as Page).content);
 
   const codeBlocks = Array.from(
@@ -305,7 +306,7 @@ export async function getStaticProps({ params }: any): Promise<any> {
     props: {
       pages,
       pageData: {
-        id: params.id,
+        id: context.params.id,
         result,
       },
       depModules,
