@@ -18,6 +18,7 @@ export interface PageMeta {
   title: string;
   date: string;
   isIndex: boolean;
+  order: number;
 }
 
 export const getPage = async (pagePath: string): Promise<Page> => {
@@ -41,6 +42,13 @@ export const getPages = async (): Promise<Page[]> => {
   for (const pagePath of pagePaths) {
     pages.push(await getPage(pagePath));
   }
+
+  pages.sort((a, b) => {
+    if (a.meta.order > b.meta.order) { return 1 }
+    else if (a.meta.order === b.meta.order) { return 0 }
+    else { return -1; }
+  });
+
   return pages;
 };
 
