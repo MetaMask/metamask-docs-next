@@ -11,6 +11,7 @@ export default function Page() {
 
 export const getStaticProps: GetStaticProps<any, any> = async (context) => {
   const pages = await getPages();
+  console.log(context);
 
   const indexPage = pages.find((p) => p.meta.isIndex);
 
@@ -21,7 +22,7 @@ export const getStaticProps: GetStaticProps<any, any> = async (context) => {
   return {
     redirect: {
       statusCode: 307,
-      destination: indexPage.route
+      destination: "/" + indexPage.route
     },
   };
 };
