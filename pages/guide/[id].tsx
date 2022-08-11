@@ -253,7 +253,7 @@ export const getStaticPaths = async () => {
   const paths = await getGuideList();
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 };
 

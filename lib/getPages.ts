@@ -8,6 +8,7 @@ const glob = promisify(_glob);
 
 export interface Page {
   id: string;
+  route: string;
   path: string;
   meta: PageMeta;
   content: string;
@@ -23,9 +24,11 @@ export const getPage = async (pagePath: string): Promise<Page> => {
   const content = await readFile(pagePath, 'utf8');
 
   const result = matter(content);
+  const route = pagePath.replace('.mdx', '')
 
   return {
-    id: pagePath.replace('.mdx', '').replace('guide/', ''),
+    id: route.replace('guide/', ''),
+    route,
     path: pagePath,
     meta: result.data as PageMeta,
     content: result.content,
