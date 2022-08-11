@@ -25,7 +25,7 @@ export const getPage = async (pagePath: string): Promise<Page> => {
   const content = await readFile(pagePath, 'utf8');
 
   const result = matter(content);
-  const route = pagePath.replace('.mdx', '')
+  const route = pagePath.replace('.mdx', '');
 
   return {
     id: route.replace('guide/', ''),
@@ -44,9 +44,12 @@ export const getPages = async (): Promise<Page[]> => {
   }
 
   pages.sort((a, b) => {
-    if (a.meta.order > b.meta.order) { return 1 }
-    else if (a.meta.order === b.meta.order) { return 0 }
-    else { return -1; }
+    if (a.meta.order > b.meta.order) {
+      return 1;
+    } else if (a.meta.order === b.meta.order) {
+      return 0;
+    }
+    return -1;
   });
 
   return pages;

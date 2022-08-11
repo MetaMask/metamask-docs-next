@@ -4,6 +4,7 @@ import { serialize } from 'next-mdx-remote/serialize';
 import Editor from '@monaco-editor/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
+import { GetStaticProps } from 'next';
 import Sidenav from '../../layout/Sidenav';
 import { getPages, getGuideList, Page } from '../../lib/getPages';
 import getCodeBlockModules, {
@@ -12,7 +13,6 @@ import getCodeBlockModules, {
 } from '../../lib/getCodeBlockModules';
 import Tip from '../../components/Tip';
 import Warning from '../../components/Warning';
-import { GetStaticProps } from 'next';
 
 interface CodeBlockProps {
   children: React.ReactElement;
@@ -313,4 +313,4 @@ export const getStaticProps: GetStaticProps<any, any> = async (context) => {
       codeBlockMap,
     },
   };
-}
+};
