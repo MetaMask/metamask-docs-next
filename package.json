@@ -2,6 +2,7 @@
   "name": "metamask-docs-next",
   "version": "0.0.5",
   "private": true,
+  "homepage": "https://metamask.github.io/metamask-docs-next/",
   "repository": {
     "type": "git",
     "url": "https://github.com/MetaMask/metamask-docs-next"
@@ -35,7 +36,7 @@
     "rehype-slug": "^5.0.1",
     "rehype-stringify": "^9.0.3",
     "remark-slug": "^7.0.1",
-    "sass": "^1.54.0",
+    "sass": "^1.54.4",
     "ts-loader": "^9.3.1",
     "webpack": "^5.74.0"
   },
