@@ -31,13 +31,13 @@ const Menu = () => {
   // const context = useContext(AppContext)
   const myAppRoutes: AppRoute[] = [
     { name: 'home', href: '/' },
-    { name: 'guide', href: '/guide' },
+    { name: 'guide', href: '/guide/' },
   ];
 
   return (
     <ul style={{ userSelect: 'none' }}>
       <RouterLinks routes={myAppRoutes} />
-      <li className="link">
+      <li key="gh-link" className="link">
         <a tabIndex={4} href="https://github.com/metamask/metamask-docs-next">
           <SiGithub />
         </a>

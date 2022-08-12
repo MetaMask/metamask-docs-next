@@ -1,7 +1,7 @@
 /**
- * Brand Colors 
+ * Brand Colors
  * Do not use "--brand-colors" in your code
- * Instead use the "--color-" variables to ensure 
+ * Instead use the "--color-" variables to ensure
  * theme compatible styles
  */
 
@@ -277,7 +277,7 @@
  * Colors for dark theme
  */
 
- @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :root {
     --color-background-default: var(--brand-colors-grey-grey800);
     --color-background-alternative: var(--brand-colors-grey-grey900);
