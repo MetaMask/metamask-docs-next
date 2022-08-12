@@ -27,6 +27,8 @@ jobs:
       - uses: MetaMask/action-publish-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: yarn install
+        run: yarn
       - name: Build
         run: yarn build
       - name: Deploy Latest
