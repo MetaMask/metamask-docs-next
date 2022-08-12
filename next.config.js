@@ -1,5 +1,7 @@
-const package = require("./package.json");
-const isProduction = process.env.NODE_ENV === "production";
+const package = require('./package.json');
+
+// eslint-disable-next-line node/no-process-env
+const isProduction = process.env.NODE_ENV === 'production';
 
 let assetPrefix;
 if (isProduction) {
