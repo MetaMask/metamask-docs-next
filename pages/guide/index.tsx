@@ -1,9 +1,16 @@
 import type { GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
 import { getPages } from '../../lib/getPages';
 
-export default function Page() {
-  return <div>never gonna give you up</div>;
+function RedirectPage({ indexPage }: any) {
+  const router = useRouter();
+  // Make sure we're in the browser
+  if (typeof window !== 'undefined') {
+    router.push(`/${indexPage.route}`);
+  }
 }
+
+export default RedirectPage;
 
 export const getStaticProps: GetStaticProps<any, any> = async () => {
   const pages = await getPages();
@@ -14,9 +21,8 @@ export const getStaticProps: GetStaticProps<any, any> = async () => {
   }
 
   return {
-    redirect: {
-      statusCode: 307,
-      destination: `/${indexPage.route}`,
+    props: {
+      indexPage,
     },
   };
 };
