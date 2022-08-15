@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.8]
+### Uncategorized
+- Merge branch 'main' of github.com:MetaMask/metamask-docs-next
+- Fixed introduction to use Tip component
+
 ## [0.0.7]
 ### Uncategorized
 - Fixed url linking issues
@@ -156,7 +161,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Run examples live in-page
 - Initial bootstrapping code for nextjs and mdx
 
-[Unreleased]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.7...HEAD
+[Unreleased]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.8...HEAD
+[0.0.8]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.4...v0.0.5
