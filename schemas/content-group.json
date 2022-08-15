@@ -1,0 +1,25 @@
+{
+  "$schema": "https://meta.json-schema.tools",
+  "title": "JSON Schema for sidebar content groups",
+  "description": "JSON Schema for sidebar content groups",
+  "type": "object",
+  "required": [
+    "order"
+  ],
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 80,
+      "description": "Title of the group"
+    },
+    "slug": {
+      "type": "string",
+      "description": "Slug fragment for the group"
+    },
+    "order": {
+      "type": "integer",
+      "description": "Order of the group",
+      "minimum": 0
+    }
+  }
+}

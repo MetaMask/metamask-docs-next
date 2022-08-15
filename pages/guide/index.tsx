@@ -14,7 +14,7 @@ export default RedirectPage;
 
 export const getStaticProps: GetStaticProps<any, any> = async () => {
   const pages = await getPages();
-  const indexPage = pages.find((p) => p.meta.isIndex);
+  const indexPage = pages.find((p) => p.meta.order === 0);
 
   if (!indexPage) {
     throw new Error('No index page found.');

@@ -17,7 +17,6 @@ export interface Page {
 export interface PageMeta {
   title: string;
   date: string;
-  isIndex: boolean;
   order: number;
 }
 
