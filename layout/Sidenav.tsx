@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { TOCGroup } from '../lib/getPages';
 
 interface PropTypes {
-  toc: TOCGroup[]
+  toc: TOCGroup[];
 }
 
 const Sidenav = ({ toc }: PropTypes) => {
@@ -20,8 +20,8 @@ const Sidenav = ({ toc }: PropTypes) => {
           {g.title}
           <br />
           <ul>
-            {g.items.map((p, idx: number) => (
-              <li className="link" key={idx}>
+            {g.items.map((p, idx2: number) => (
+              <li className="link" key={`${idx}-${idx2}`}>
                 <Link href={p.route}>{p.title}</Link>
               </li>
             ))}

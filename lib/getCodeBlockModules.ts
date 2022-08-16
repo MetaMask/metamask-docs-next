@@ -33,8 +33,9 @@ const importRegex =
   /(?:(?:(?:import)|(?:export))(?:.)*?from\s+["']([^"']+)["'])|(?:require(?:\s+)?\(["']([^"']+)["']\))|(?:\/+\s+<reference\s+path=["']([^"']+)["']\s+\/>)/gmu;
 
 export const extractCodeBlocks = (content: string) => {
-  const codeBlocks = Array.from(content.matchAll(codeBlockRegex))
-    .map(([, language, code]) => ({ language, code }));
+  const codeBlocks = Array.from(content.matchAll(codeBlockRegex)).map(
+    ([, language, code]) => ({ language, code }),
+  );
 
   return codeBlocks?.map((block) => {
     const arr = Array.from(block.code.matchAll(importRegex));
@@ -49,10 +50,10 @@ export const extractCodeBlocks = (content: string) => {
       imports: localImports,
     };
   });
-}
+};
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async function(
+export default async function (
   codeBlocks: CodeBlock[],
 ): Promise<MonacoModule[]> {
   const mods: MonacoModule[] = [];

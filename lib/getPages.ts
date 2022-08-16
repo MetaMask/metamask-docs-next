@@ -7,7 +7,6 @@ const readFile = promisify(fs.readFile);
 const readdir = promisify(fs.readdir);
 const glob = promisify(_glob);
 
-
 export interface Page {
   slug: string[];
   path: string;
@@ -22,11 +21,6 @@ export interface PageMeta {
   order: number;
 }
 
-export const getPageForSlug = async (slug: string[]): Promise<Page> => {
-  const path = `content/${slug.join('/')}.mdx`;
-  return getPage(path);
-};
-
 export const getPage = async (pagePath: string): Promise<Page> => {
   const content = await readFile(pagePath, 'utf8');
 
@@ -34,12 +28,17 @@ export const getPage = async (pagePath: string): Promise<Page> => {
   const route = pagePath.replace('.mdx', '').replace('content/', '');
 
   return {
-    slug: route.split("/"),
+    slug: route.split('/'),
     path: pagePath,
     route,
     meta: result.data as PageMeta,
     content: result.content,
   };
+};
+
+export const getPageForSlug = async (slug: string[]): Promise<Page> => {
+  const path = `content/${slug.join('/')}.mdx`;
+  return getPage(path);
 };
 
 export const getPages = async (): Promise<Page[]> => {
@@ -65,7 +64,7 @@ export const listPages = async (): Promise<any> => {
   return (await getPages()).map((page: Page) => {
     return {
       params: {
-        slug: page.slug
+        slug: page.slug,
       },
     };
   });
@@ -74,7 +73,7 @@ export const listPages = async (): Promise<any> => {
 export interface TOCGroup {
   title: string;
   order: number;
-  items: TOCItem[]
+  items: TOCItem[];
 }
 
 export interface TOCItem {
@@ -96,20 +95,23 @@ const getGroups = async () => {
         m.items = [];
         withMeta.push(m);
       } catch (e) {
-        console.error(`Invalid JSON :: Could not parse meta file for group: ${group}.`);
+        console.error(
+          `Invalid JSON :: Could not parse meta file for group: ${group}.`,
+        );
         throw e;
       }
     } catch (e) {
       noMeta.push(group);
     }
   }
+
   if (noMeta.length > 0) {
     noMeta.forEach((group, idx) => {
       withMeta.push({
         title: group,
         order: withMeta.length + idx,
         pathPrefix: group,
-        items: []
+        items: [],
       });
     });
   }
@@ -123,7 +125,7 @@ export const getTOC = async (): Promise<TOCGroup[]> => {
   pages.forEach((p) => {
     const groupPathPrefix = p.slug[0];
     console.log(groupPathPrefix);
-    const g = groups.find((g) => g.pathPrefix === groupPathPrefix);
+    const g = groups.find((gg) => gg.pathPrefix === groupPathPrefix);
     g.items.push({
       title: p.meta.title,
       route: p.route,
@@ -134,6 +136,7 @@ export const getTOC = async (): Promise<TOCGroup[]> => {
     if (a.order > b.order) {
       return 1;
     }
+
     if (a.order === b.order) {
       return 0;
     }

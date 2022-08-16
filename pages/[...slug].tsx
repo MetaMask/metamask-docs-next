@@ -1,9 +1,11 @@
-import { GetStaticPaths, GetStaticProps } from 'next'
-import { useRouter } from 'next/router'
-import { getPageForSlug, getPages, getTOC, Page } from '../lib/getPages'
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
-import getCodeBlockModules, { extractCodeBlocks, getCompiledWebpack, MonacoModule } from '../lib/getCodeBlockModules';
+import { getPageForSlug, getPages, getTOC, Page } from '../lib/getPages';
+import getCodeBlockModules, {
+  extractCodeBlocks,
+  getCompiledWebpack,
+} from '../lib/getCodeBlockModules';
 import Sidenav from '../layout/Sidenav';
 import Tip from '../components/Tip';
 import Warning from '../components/Warning';
@@ -11,7 +13,6 @@ import makeCodeBlock from '../components/mdx/CodeBlock';
 
 export default function Guide({
   toc,
-  page,
   serializedPage,
   depModules,
   codeBlockMap,
@@ -37,7 +38,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = (await getPages()).map((page: Page) => {
     return {
       params: {
-        slug: page.slug
+        slug: page.slug,
       },
     };
   });
@@ -47,7 +48,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
     fallback: false,
   };
 };
-
 
 export const getStaticProps: GetStaticProps<any, any> = async (context) => {
   const page = await getPageForSlug(context.params.slug);
@@ -72,7 +72,7 @@ export const getStaticProps: GetStaticProps<any, any> = async (context) => {
       page,
       serializedPage,
       depModules,
-      codeBlockMap
-    }
+      codeBlockMap,
+    },
   };
 };

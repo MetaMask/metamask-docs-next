@@ -1,15 +1,18 @@
-import { MonacoModule } from "../../../lib/getCodeBlockModules";
+import { inspect } from 'util';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { inspect } from 'util';
 import Editor from '@monaco-editor/react';
+import { MonacoModule } from '../../../lib/getCodeBlockModules';
 
 export interface CodeBlockProps {
   children: React.ReactElement;
   defaultValue: string;
 }
 
-export default function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
+export default function makeCodeBlock(
+  depModules: MonacoModule[],
+  codeBlockMap: any,
+) {
   // which block am i??
   // who am i?
   // compare children.text
