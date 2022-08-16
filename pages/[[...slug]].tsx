@@ -71,10 +71,11 @@ export const getStaticProps: GetStaticProps<any, any> = async (context) => {
     };
   }
 
+  const toc = await getTOC();
+
   if (context.params.slug?.length === 1) {
-    const toc = await getTOC();
     const tocGroup = toc.find((g) => g.pathPrefix === context.params.slug[0]);
-    const newRouteItem = tocGroup?.items.find((p) => p.meta.order === 0);
+    const newRouteItem = tocGroup?.items.find((p) => p.order === 0);
     return {
       props: {
         redirectClientSide: newRouteItem?.route,
@@ -98,7 +99,7 @@ export const getStaticProps: GetStaticProps<any, any> = async (context) => {
 
   return {
     props: {
-      toc: await getTOC(),
+      toc,
       page,
       serializedPage,
       depModules,

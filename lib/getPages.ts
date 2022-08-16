@@ -80,7 +80,7 @@ export interface TOCGroup {
 export interface TOCItem {
   title: string;
   route: string;
-  meta: PageMeta;
+  order: number;
 }
 
 const getGroups = async () => {
@@ -130,7 +130,7 @@ export const getTOC = async (): Promise<TOCGroup[]> => {
     g.items.push({
       title: p.meta.title,
       route: p.route,
-      meta: p.meta,
+      order: p.meta.order,
     });
   });
 
@@ -143,6 +143,20 @@ export const getTOC = async (): Promise<TOCGroup[]> => {
       return 0;
     }
     return -1;
+  });
+
+  // sort items inside of groups
+  groups.forEach((g) => {
+    g.items.sort((a: TOCItem, b: TOCItem) => {
+      if (a.order > b.order) {
+        return 1;
+      }
+
+      if (a.order === b.order) {
+        return 0;
+      }
+      return -1;
+    });
   });
 
   return groups;
