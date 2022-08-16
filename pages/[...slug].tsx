@@ -51,7 +51,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<any, any> = async (context) => {
   const page = await getPageForSlug(context.params.slug);
-  console.log(page);
 
   const serializedPage = await serialize(page.content);
 

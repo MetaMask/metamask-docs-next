@@ -125,7 +125,6 @@ export default function makeCodeBlock(
 
     const hackedLog = (level: 'log' | 'error') => {
       return (...things: any) => {
-        console.log('Paynus');
         (console as any)[level](...things);
 
         setLogs((lastLog) => {

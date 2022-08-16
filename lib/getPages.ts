@@ -124,7 +124,6 @@ export const getTOC = async (): Promise<TOCGroup[]> => {
 
   pages.forEach((p) => {
     const groupPathPrefix = p.slug[0];
-    console.log(groupPathPrefix);
     const g = groups.find((gg) => gg.pathPrefix === groupPathPrefix);
     g.items.push({
       title: p.meta.title,
