@@ -7,6 +7,11 @@
   margin-inline-end: 0;
   padding-inline-start: 0;
 }
+
+.sidenav details {
+  cursor: pointer;
+}
+
 .sidenav li {
   display: flex;
   justify-content: flex-start;
