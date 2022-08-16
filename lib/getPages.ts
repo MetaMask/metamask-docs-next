@@ -74,6 +74,7 @@ export interface TOCGroup {
   title: string;
   order: number;
   items: TOCItem[];
+  pathPrefix: string;
 }
 
 export interface TOCItem {
