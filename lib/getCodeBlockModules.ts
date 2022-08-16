@@ -3,7 +3,6 @@ import path from 'path';
 import fs from 'fs';
 import _glob from 'glob';
 import _webpack from 'webpack';
-import { CodeBlock } from '../pages/guide/[id]';
 
 const readFile = promisify(fs.readFile);
 const glob = promisify(_glob);
@@ -21,6 +20,37 @@ export interface MonacoModule {
   content: string;
   impls: MonacoLib[];
 }
+
+export interface CodeBlock {
+  imports: string[];
+  language: string;
+  code: string;
+}
+
+const codeBlockRegex =
+  /```(js|javascript|typescript|ts)(?:-autorun)?\n([\s\S]*?)```$/gmu;
+const importRegex =
+  /(?:(?:(?:import)|(?:export))(?:.)*?from\s+["']([^"']+)["'])|(?:require(?:\s+)?\(["']([^"']+)["']\))|(?:\/+\s+<reference\s+path=["']([^"']+)["']\s+\/>)/gmu;
+
+export const extractCodeBlocks = (content: string) => {
+  const codeBlocks = Array.from(content.matchAll(codeBlockRegex)).map(
+    ([, language, code]) => ({ language, code }),
+  );
+
+  return codeBlocks?.map((block) => {
+    const arr = Array.from(block.code.matchAll(importRegex));
+    const localImports: string[] = [];
+
+    arr.forEach((item) => {
+      localImports.push(item[1]);
+    });
+
+    return {
+      ...block,
+      imports: localImports,
+    };
+  });
+};
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async function (
