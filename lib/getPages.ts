@@ -80,6 +80,7 @@ export interface TOCGroup {
 export interface TOCItem {
   title: string;
   route: string;
+  meta: PageMeta;
 }
 
 const getGroups = async () => {
@@ -129,6 +130,7 @@ export const getTOC = async (): Promise<TOCGroup[]> => {
     g.items.push({
       title: p.meta.title,
       route: p.route,
+      meta: p.meta,
     });
   });
 
