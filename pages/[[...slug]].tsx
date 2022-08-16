@@ -57,8 +57,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   // params slug: 'guide'
 
   return {
-    paths,
-    fallback: true,
+    paths: paths.concat([
+      { params: { slug: [] } },
+      { params: { slug: ['guide'] } },
+    ]),
+    fallback: false,
   };
 };
 
