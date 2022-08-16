@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.9]
+### Uncategorized
+- Fixed homepage in package.json
+- Fixed ordering
+- Added dynamic route to handle index routes
+- Merge branch 'nested-folders' of github.com:MetaMask/metamask-docs-next into nested-folders
+- Added pathPrefix to TOC type
+- Merge branch 'main' into nested-folders
+- Added active link to Sidenav
+- Removed consolelogs
+- Fixed linting issues
+- Added sorting groups by order
+- Changed how toc is built and how pages are read
+- WIP nested folders
+
 ## [0.0.8]
 ### Uncategorized
 - Merge branch 'main' of github.com:MetaMask/metamask-docs-next
@@ -161,7 +176,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Run examples live in-page
 - Initial bootstrapping code for nextjs and mdx
 
-[Unreleased]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.8...HEAD
+[Unreleased]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.9...HEAD
+[0.0.9]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.5...v0.0.6
