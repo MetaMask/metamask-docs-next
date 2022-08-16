@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { TOCGroup } from '../lib/getPages';
 
 interface PropTypes {
@@ -6,6 +7,8 @@ interface PropTypes {
 }
 
 const Sidenav = ({ toc }: PropTypes) => {
+  const router = useRouter();
+
   if (!toc) {
     return <div>loading...</div>;
   }
@@ -17,15 +20,22 @@ const Sidenav = ({ toc }: PropTypes) => {
     <div className="sidenav">
       {toc.map((g, idx: number) => (
         <li key={idx}>
-          {g.title}
-          <br />
-          <ul>
-            {g.items.map((p, idx2: number) => (
-              <li className="link" key={`${idx}-${idx2}`}>
-                <Link href={p.route}>{p.title}</Link>
-              </li>
-            ))}
-          </ul>
+          <details open>
+            <summary>{g.title}</summary>
+            <ul>
+              {g.items.map((p, idx2: number) => (
+                <li
+                  className={
+                    // eslint-disable-next-line prefer-template
+                    'link' + (router.asPath === `/${p.route}` ? ' active' : '')
+                  }
+                  key={`${idx}-${idx2}`}
+                >
+                  <Link href={p.route}>{p.title}</Link>
+                </li>
+              ))}
+            </ul>
+          </details>
         </li>
       ))}
     </div>
