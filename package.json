@@ -2,7 +2,7 @@
   "name": "metamask-docs-next",
   "version": "0.0.8",
   "private": true,
-  "homepage": "http://localhost:3000/",
+  "homepage": "https://metamask.github.io/metamask-docs-next",
   "repository": {
     "type": "git",
     "url": "https://github.com/MetaMask/metamask-docs-next"
