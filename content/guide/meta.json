@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/content-group.json",
   "title": "Guide",
-  "slug": "guide",
+  "pathPrefix": "guide",
   "order": 0
 }

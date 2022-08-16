@@ -8,8 +8,6 @@ let basePath;
 if (isProduction) {
   assetPrefix = `${package.homepage}/`;
   basePath = new URL(package.homepage).pathname;
-  console.log(`using next.config assetPrefix of : ${assetPrefix}`);
-  console.log(`using next.config basePath of : ${basePath}`);
 }
 
 module.exports = {

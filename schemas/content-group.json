@@ -3,18 +3,16 @@
   "title": "JSON Schema for sidebar content groups",
   "description": "JSON Schema for sidebar content groups",
   "type": "object",
-  "required": [
-    "order"
-  ],
+  "required": ["order"],
   "properties": {
     "title": {
       "type": "string",
       "maxLength": 80,
       "description": "Title of the group"
     },
-    "slug": {
+    "pathPrefix": {
       "type": "string",
-      "description": "Slug fragment for the group"
+      "description": "path Prefix for the group."
     },
     "order": {
       "type": "integer",
