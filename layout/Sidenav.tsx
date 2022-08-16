@@ -1,23 +1,31 @@
 import Link from 'next/link';
-import { Page } from '../lib/getPages';
+import { TOCGroup } from '../lib/getPages';
 
 interface PropTypes {
-  pages: Page[];
+  toc: TOCGroup[]
 }
 
-const Sidenav = ({ pages }: PropTypes) => {
-  if (!pages) {
+const Sidenav = ({ toc }: PropTypes) => {
+  if (!toc) {
     return <div>loading...</div>;
   }
 
-  if (pages.length === 0) {
+  if (toc.length === 0) {
     return <div>loading...</div>;
   }
   return (
     <div className="sidenav">
-      {pages.map((p: any, idx: number) => (
-        <li className="link" key={idx}>
-          <Link href={p.id}>{p.meta.title}</Link>
+      {toc.map((g, idx: number) => (
+        <li key={idx}>
+          {g.title}
+          <br />
+          <ul>
+            {g.items.map((p, idx: number) => (
+              <li className="link" key={idx}>
+                <Link href={p.route}>{p.title}</Link>
+              </li>
+            ))}
+          </ul>
         </li>
       ))}
     </div>

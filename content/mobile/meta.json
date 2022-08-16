@@ -1,0 +1,6 @@
+{
+  "$schema": "../../schemas/content-group.json",
+  "title": "Mobile",
+  "pathPrefix": "mobile",
+  "order": 1
+}

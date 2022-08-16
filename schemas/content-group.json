@@ -12,9 +12,9 @@
       "maxLength": 80,
       "description": "Title of the group"
     },
-    "slug": {
+    "pathPrefix": {
       "type": "string",
-      "description": "Slug fragment for the group"
+      "description": "path Prefix for the group."
     },
     "order": {
       "type": "integer",

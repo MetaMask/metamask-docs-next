@@ -1,25 +1,15 @@
-import { inspect } from 'util';
-import { MDXRemote } from 'next-mdx-remote';
-import { serialize } from 'next-mdx-remote/serialize';
-import Editor from '@monaco-editor/react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { MonacoModule } from "../../../lib/getCodeBlockModules";
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
-import { GetStaticProps } from 'next';
-import Sidenav from '../../layout/Sidenav';
-import { getPages, getGuideList, Page } from '../../lib/getPages';
-import getCodeBlockModules, {
-  getCompiledWebpack,
-  MonacoModule,
-} from '../../lib/getCodeBlockModules';
-import Tip from '../../components/Tip';
-import Warning from '../../components/Warning';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { inspect } from 'util';
+import Editor from '@monaco-editor/react';
 
-interface CodeBlockProps {
+export interface CodeBlockProps {
   children: React.ReactElement;
   defaultValue: string;
 }
 
-function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
+export default function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
   // which block am i??
   // who am i?
   // compare children.text
@@ -110,7 +100,6 @@ function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
 
         // compile ts to js - use this for codeblocks with tabbed transpilation of examples
         /* let tsProxy: any;
-
          * monaco.languages.typescript
          *   .getTypeScriptWorker()
          *   .then(function (worker: any) {
@@ -225,92 +214,3 @@ function makeCodeBlock(depModules: MonacoModule[], codeBlockMap: any) {
     );
   };
 }
-
-export default function Guide({
-  pages,
-  pageData,
-  depModules,
-  codeBlockMap,
-}: any) {
-  return (
-    <div className="docs">
-      <Sidenav pages={pages} />
-      <div className="guide">
-        <MDXRemote
-          {...pageData.result}
-          components={{
-            pre: makeCodeBlock(depModules, codeBlockMap),
-            Tip,
-            Warning,
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
-export const getStaticPaths = async () => {
-  const paths = await getGuideList();
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
-const importRegex =
-  /(?:(?:(?:import)|(?:export))(?:.)*?from\s+["']([^"']+)["'])|(?:require(?:\s+)?\(["']([^"']+)["']\))|(?:\/+\s+<reference\s+path=["']([^"']+)["']\s+\/>)/gmu;
-const codeBlockRegex =
-  /```(js|javascript|typescript|ts)(?:-autorun)?\n([\s\S]*?)```$/gmu;
-
-export interface CodeBlock {
-  imports: string[];
-  language: string;
-  code: string;
-}
-
-export const getStaticProps: GetStaticProps<any, any> = async (context) => {
-  const pages = await getPages();
-
-  const currentPage = pages.find((page) => page.id === context.params.id);
-  const result = await serialize((currentPage as Page).content);
-
-  const codeBlocks = Array.from(
-    (currentPage as Page).content.matchAll(codeBlockRegex),
-  ).map(([, language, code]) => ({ language, code }));
-
-  const imports: CodeBlock[] = codeBlocks?.map((block) => {
-    const arr = Array.from(block.code.matchAll(importRegex));
-    const localImports: string[] = [];
-
-    arr.forEach((item) => {
-      localImports.push(item[1]);
-    });
-
-    return {
-      ...block,
-      imports: localImports,
-    };
-  });
-
-  // get code blocks from markdown
-  const depModules = await getCodeBlockModules(imports);
-  const codeBlockMap: any = {};
-
-  for (const block of codeBlocks) {
-    const { code, language } = block;
-    const codeBlockStrings = await getCompiledWebpack(code, language as any);
-    codeBlockMap[code.toString()] = codeBlockStrings;
-  }
-
-  return {
-    props: {
-      pages,
-      pageData: {
-        id: context.params.id,
-        result,
-      },
-      depModules,
-      codeBlockMap,
-    },
-  };
-};
