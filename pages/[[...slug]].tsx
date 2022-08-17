@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 import { useRouter } from 'next/router';
-import { getPageForSlug, getPages, getTOC, Page } from '../lib/getPages';
+import { getPageForSlug } from '../lib/getPages';
 import getCodeBlockModules, {
   extractCodeBlocks,
   getCompiledWebpack,
@@ -11,6 +11,7 @@ import Sidenav from '../layout/Sidenav';
 import Tip from '../components/Tip';
 import Warning from '../components/Warning';
 import makeCodeBlock from '../components/mdx/CodeBlock';
+import { getTOC } from '../lib/getTOC';
 
 export default function Guide({
   redirectClientSide,
@@ -47,20 +48,23 @@ export default function Guide({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = (await getPages()).map((page: Page) => {
-    return {
-      params: {
-        slug: page.slug,
-      },
-    };
+  const toc = await getTOC();
+  const paths = [{ params: { slug: [] } }] as any;
+
+  toc.forEach((group) => {
+    paths.push({ params: { slug: [group.pathPrefix] } });
+
+    group.items.forEach((page) => {
+      paths.push({
+        params: {
+          slug: page.slug,
+        },
+      });
+    });
   });
-  // params slug: 'guide'
 
   return {
-    paths: paths.concat([
-      { params: { slug: [] } },
-      { params: { slug: ['guide'] } },
-    ]),
+    paths,
     fallback: false,
   };
 };
@@ -89,7 +93,7 @@ export const getStaticProps: GetStaticProps<any, any> = async (context) => {
 
   const serializedPage = await serialize(page.content);
 
-  const codeBlocks = await extractCodeBlocks(page.content);
+  const codeBlocks = extractCodeBlocks(page.content);
   const depModules = await getCodeBlockModules(codeBlocks);
 
   const codeBlockMap: any = {};

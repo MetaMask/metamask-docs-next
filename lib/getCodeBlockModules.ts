@@ -32,7 +32,7 @@ const codeBlockRegex =
 const importRegex =
   /(?:(?:(?:import)|(?:export))(?:.)*?from\s+["']([^"']+)["'])|(?:require(?:\s+)?\(["']([^"']+)["']\))|(?:\/+\s+<reference\s+path=["']([^"']+)["']\s+\/>)/gmu;
 
-export const extractCodeBlocks = (content: string) => {
+export const extractCodeBlocks = (content: string): CodeBlock[] => {
   const codeBlocks = Array.from(content.matchAll(codeBlockRegex)).map(
     ([, language, code]) => ({ language, code }),
   );
