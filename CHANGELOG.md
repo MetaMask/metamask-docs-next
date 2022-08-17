@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.11]
+### Uncategorized
+- Fixed import of TOCGroup
+- Changed getStaticPaths to use getTOC instead of getPages
+- Changed the selectors for css to use sass nesting
+- Added markdown linting
+- Added introduction content
+- Added cursor pointer for details sidenav
+
 ## [0.0.10]
 ### Uncategorized
 - Merge branch 'main' into nested-folders-smalltime
@@ -181,7 +190,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Run examples live in-page
 - Initial bootstrapping code for nextjs and mdx
 
-[Unreleased]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.10...HEAD
+[Unreleased]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.11...HEAD
+[0.0.11]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.10...v0.0.11
 [0.0.10]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.9...v0.0.10
 [0.0.9]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.7...v0.0.8
