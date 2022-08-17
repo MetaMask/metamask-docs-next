@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { TOCGroup } from '../lib/getPages';
+import { TOCGroup } from '../lib/getTOC';
 
 interface PropTypes {
   toc: TOCGroup[];
