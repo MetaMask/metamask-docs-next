@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.12]
+### Uncategorized
+- Fixed type issues
+- Fixed some linting errors
+- Changed how the codeblock objects are constructed and used
+- Fixed linting issue
+- Fixed extractCodeBlocks for js and ts
+- WIP GOTTA GO TO BASEBALL
+
 ## [0.0.11]
 ### Uncategorized
 - Fixed import of TOCGroup
@@ -190,7 +199,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Run examples live in-page
 - Initial bootstrapping code for nextjs and mdx
 
-[Unreleased]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.11...HEAD
+[Unreleased]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.12...HEAD
+[0.0.12]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.11...v0.0.12
 [0.0.11]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.10...v0.0.11
 [0.0.10]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.9...v0.0.10
 [0.0.9]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.8...v0.0.9
