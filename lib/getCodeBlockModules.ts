@@ -27,7 +27,7 @@ export interface CodeBlockOptions {
 
 export interface CodeBlock {
   imports: string[];
-  language: string;
+  language: Language;
   options: CodeBlockOptions;
   webpackBundle?: string;
   code: string;
@@ -44,34 +44,13 @@ const languageMap = {
 } as { [key: string]: string };
 
 const extractImports = (code: string): string[] => {
-  return Array
-    .from(code.matchAll(importRegex))
-    .map((item) => item[1]);
+  return Array.from(code.matchAll(importRegex)).map((item) => item[1]);
 };
 
-export const extractCodeBlocks = async (content: string): Promise<CodeBlock[]> => {
-  const blocks: CodeBlock[] = Array.from(content.matchAll(codeBlockRegex))
-    .map(([, language, code]) => {
-      const lang = languageMap[language.split('-')[0]] || language;
-
-      const opts = {
-        autorun: language.includes('-autorun'),
-      };
-
-      return { language: lang, options: opts, code, imports: extractImports(code) };
-    });
-
-  for (const block of blocks) {
-    if (["ts", "js"].includes(block.language)) {
-      block.webpackBundle = await getCompiledWebpack(block.code, block.language)
-    }
-  }
-
-  return blocks;
-};
+export type Language = 'js' | 'ts';
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async function(
+export default async function (
   codeBlocks: CodeBlock[],
 ): Promise<MonacoModule[]> {
   const mods: MonacoModule[] = [];
@@ -133,8 +112,6 @@ const forceEsm = (source: string): string => {
 
   return `${source} \n export {};`;
 };
-
-type Language = 'js' | 'ts';
 
 export const getCompiledWebpack = async (
   sourceCode: string,
@@ -202,4 +179,36 @@ export const getCompiledWebpack = async (
   const result = await readFile(resultPath, 'utf8');
   await rmDir(tmpPath, { recursive: true });
   return result;
+};
+
+export const extractCodeBlocks = async (
+  content: string,
+): Promise<CodeBlock[]> => {
+  const blocks: CodeBlock[] = Array.from(content.matchAll(codeBlockRegex)).map(
+    ([, language, code]) => {
+      const lang = languageMap[language.split('-')[0]] || language;
+
+      const opts = {
+        autorun: language.includes('-autorun'),
+      };
+
+      return {
+        language: lang as Language,
+        options: opts,
+        code,
+        imports: extractImports(code),
+      };
+    },
+  );
+
+  for (const block of blocks) {
+    if (['ts', 'js'].includes(block.language)) {
+      block.webpackBundle = await getCompiledWebpack(
+        block.code,
+        block.language,
+      );
+    }
+  }
+
+  return blocks;
 };

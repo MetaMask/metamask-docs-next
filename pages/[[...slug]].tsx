@@ -6,7 +6,6 @@ import { getPageForSlug } from '../lib/getPages';
 import getCodeBlockModules, {
   CodeBlock,
   extractCodeBlocks,
-  getCompiledWebpack,
   MonacoModule,
 } from '../lib/getCodeBlockModules';
 import Sidenav from '../layout/Sidenav';
@@ -36,8 +35,12 @@ export default function Guide({
     return null;
   }
 
-
-  if (toc === undefined || serializedPage === undefined || depModules === undefined) {
+  if (
+    toc === undefined ||
+    serializedPage === undefined ||
+    depModules === undefined ||
+    codeBlocks === undefined
+  ) {
     return null;
   }
 

@@ -16,7 +16,7 @@ export default function makeCodeBlock(
   // which block am i??
   // who am i?
   // compare children.text
-  return function CodeBlock(props: CodeBlockProps) {
+  return function CodeBlockComponent(props: CodeBlockProps) {
     const opts = props.children.props.className.replace('language-', '');
     const lang = opts.split('-')[0];
     const autorun = Boolean(opts.split('-')[1]);
@@ -168,13 +168,12 @@ export default function makeCodeBlock(
       const codeBlock = codeBlocks.find((b) => b.code === code);
       if (codeBlock === undefined) {
         throw new Error(
-          'Cannot find a code block matching the code for snippet: ',
-          code,
+          'Cannot find a code block matching the code for snippet: '+ code,
         );
       }
 
       if (codeBlock.webpackBundle === undefined) {
-        throw new Error('Cannot find webpack bundle for code block', code);
+        throw new Error('Cannot find webpack bundle for code block' + code);
       }
       // these are used to override the console.log and console.error inside the example
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
