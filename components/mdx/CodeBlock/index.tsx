@@ -9,32 +9,31 @@ export interface CodeBlockProps {
   defaultValue: string;
 }
 
-const editorOptions = {
-  scrollbar: {
-    verticalHasArrows: true,
-    horizontalHasArrows: true,
-    vertical: 'hidden',
-    horizontal: 'hidden',
-    verticalScrollbarSize: 17,
-    horizontalScrollbarSize: 17,
-    arrowSize: 30,
-    useShadows: false,
-  },
-  minimap: {
-    enabled: false,
-  },
-  peekWidgetDefaultFocus: 'editor',
-  scrollBeyondLastLine: false,
-  lineNumbers: 'on',
-  fixedOverflowWidgets: true,
-  theme: 'vs-dark',
-} as monacoEditor.editor.IEditorConstructionOptions;
-
 export default function makeCodeBlock(
   depModules: MonacoModule[],
   codeBlocks: CodeBlock[],
 ) {
   return function CodeBlockComponent(props: CodeBlockProps) {
+    const editorOptions = {
+      scrollbar: {
+        verticalHasArrows: true,
+        horizontalHasArrows: true,
+        vertical: 'hidden',
+        horizontal: 'hidden',
+        verticalScrollbarSize: 17,
+        horizontalScrollbarSize: 17,
+        arrowSize: 30,
+        useShadows: false,
+      },
+      minimap: {
+        enabled: false,
+      },
+      peekWidgetDefaultFocus: 'editor',
+      scrollBeyondLastLine: false,
+      lineNumbers: 'on',
+      fixedOverflowWidgets: true,
+      theme: 'vs-dark',
+    } as monacoEditor.editor.IEditorConstructionOptions;
     const opts = props.children.props.className.replace('language-', '');
     const lang = opts.split('-')[0];
     const autorun = Boolean(opts.split('-')[1]);
