@@ -4,32 +4,43 @@ import { serialize } from 'next-mdx-remote/serialize';
 import { useRouter } from 'next/router';
 import { getPageForSlug } from '../lib/getPages';
 import getCodeBlockModules, {
+  CodeBlock,
   extractCodeBlocks,
   getCompiledWebpack,
+  MonacoModule,
 } from '../lib/getCodeBlockModules';
 import Sidenav from '../layout/Sidenav';
 import Tip from '../components/Tip';
 import Warning from '../components/Warning';
 import makeCodeBlock from '../components/mdx/CodeBlock';
-import { getTOC } from '../lib/getTOC';
+import { getTOC, TOCGroup } from '../lib/getTOC';
+
+interface Props {
+  redirectClientSide?: string;
+  toc?: TOCGroup[];
+  serializedPage?: TOCGroup[];
+  depModules?: MonacoModule[];
+  codeBlocks?: CodeBlock[];
+}
 
 export default function Guide({
   redirectClientSide,
   toc,
   serializedPage,
   depModules,
-  codeBlockMap,
-}: any) {
+  codeBlocks,
+}: Props) {
   const router = useRouter();
-
   if (redirectClientSide && typeof window !== 'undefined') {
     router.push(redirectClientSide);
     return null;
   }
 
-  if (!toc && !serializedPage) {
+
+  if (toc === undefined || serializedPage === undefined || depModules === undefined) {
     return null;
   }
+
   return (
     <div className="docs">
       <Sidenav toc={toc} />
@@ -37,7 +48,7 @@ export default function Guide({
         <MDXRemote
           {...serializedPage}
           components={{
-            pre: makeCodeBlock(depModules, codeBlockMap),
+            pre: makeCodeBlock(depModules, codeBlocks),
             Tip,
             Warning,
           }}
@@ -93,23 +104,8 @@ export const getStaticProps: GetStaticProps<any, any> = async (context) => {
 
   const serializedPage = await serialize(page.content);
 
-  const codeBlocks = extractCodeBlocks(page.content);
+  const codeBlocks = await extractCodeBlocks(page.content);
   const depModules = await getCodeBlockModules(codeBlocks);
-
-  const codeBlockMap: any = {};
-
-  for (const block of codeBlocks) {
-    const { code, language } = block;
-    if (
-      language === 'javascript' ||
-      language === 'typescript' ||
-      language === 'ts' ||
-      language === 'js'
-    ) {
-      const codeBlockStrings = await getCompiledWebpack(code, language as any);
-      codeBlockMap[code.toString()] = codeBlockStrings;
-    }
-  }
 
   return {
     props: {
@@ -117,7 +113,7 @@ export const getStaticProps: GetStaticProps<any, any> = async (context) => {
       page,
       serializedPage,
       depModules,
-      codeBlockMap,
+      codeBlocks,
     },
   };
 };
