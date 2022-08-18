@@ -2,46 +2,43 @@ import { inspect } from 'util';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Editor from '@monaco-editor/react';
-import { MonacoModule } from '../../../lib/getCodeBlockModules';
+import { CodeBlock, MonacoModule } from '../../../lib/getCodeBlockModules';
 
 export interface CodeBlockProps {
   children: React.ReactElement;
   defaultValue: string;
 }
 
+const editorOptions = {
+  scrollbar: {
+    verticalHasArrows: true,
+    horizontalHasArrows: true,
+    vertical: 'hidden',
+    horizontal: 'hidden',
+    verticalScrollbarSize: 17,
+    horizontalScrollbarSize: 17,
+    arrowSize: 30,
+    useShadows: false,
+  },
+  minimap: {
+    enabled: false,
+  },
+  peekWidgetDefaultFocus: 'editor',
+  scrollBeyondLastLine: false,
+  lineNumbers: 'on',
+  fixedOverflowWidgets: true,
+  theme: 'vs-dark',
+} as monacoEditor.editor.IEditorConstructionOptions;
+
 export default function makeCodeBlock(
   depModules: MonacoModule[],
-  codeBlockMap: any,
+  codeBlocks: CodeBlock[],
 ) {
-  // which block am i??
-  // who am i?
-  // compare children.text
-  return function CodeBlock(props: CodeBlockProps) {
+  return function CodeBlockComponent(props: CodeBlockProps) {
     const opts = props.children.props.className.replace('language-', '');
     const lang = opts.split('-')[0];
     const autorun = Boolean(opts.split('-')[1]);
     const code = props.children.props.children;
-
-    const editorOptions = {
-      scrollbar: {
-        verticalHasArrows: true,
-        horizontalHasArrows: true,
-        vertical: 'hidden',
-        horizontal: 'hidden',
-        verticalScrollbarSize: 17,
-        horizontalScrollbarSize: 17,
-        arrowSize: 30,
-        useShadows: false,
-      },
-      minimap: {
-        enabled: false,
-      },
-      peekWidgetDefaultFocus: 'editor',
-      scrollBeyondLastLine: false,
-      lineNumbers: 'on',
-      fixedOverflowWidgets: true,
-      theme: 'vs-dark',
-    } as monacoEditor.editor.IEditorConstructionOptions;
 
     const MAX_HEIGHT = Infinity;
     const MIN_COUNT_OF_LINES = 3;
@@ -165,6 +162,16 @@ export default function makeCodeBlock(
     };
 
     const runExample = () => {
+      const codeBlock = codeBlocks.find((b) => b.code === code);
+      if (codeBlock === undefined) {
+        throw new Error(
+          `Cannot find a code block matching the code for snippet: ${code}`,
+        );
+      }
+
+      if (codeBlock.webpackBundle === undefined) {
+        throw new Error(`Cannot find webpack bundle for code block${code}`);
+      }
       // these are used to override the console.log and console.error inside the example
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const consoleLog = hackedLog('log');
@@ -172,7 +179,7 @@ export default function makeCodeBlock(
       const consoleError = hackedLog('error');
       // eslint-disable-next-line no-eval
       eval(
-        codeBlockMap[code]
+        codeBlock.webpackBundle
           .replace(/console.log/gu, 'consoleLog')
           .replace(/console.error/gu, 'consoleError'),
       );

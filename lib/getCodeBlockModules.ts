@@ -27,8 +27,9 @@ export interface CodeBlockOptions {
 
 export interface CodeBlock {
   imports: string[];
-  language: string;
+  language: Language;
   options: CodeBlockOptions;
+  webpackBundle?: string;
   code: string;
 }
 
@@ -42,33 +43,11 @@ const languageMap = {
   javascript: 'js',
 } as { [key: string]: string };
 
-export const extractCodeBlocks = (content: string): CodeBlock[] => {
-  const codeBlocks = Array.from(content.matchAll(codeBlockRegex)).map(
-    ([, language, code]) => {
-      const lang = languageMap[language.split('-')[0]] || language;
-
-      const opts = {
-        autorun: language.includes('-autorun'),
-      };
-
-      return { language: lang, options: opts, code };
-    },
-  );
-
-  return codeBlocks?.map((block) => {
-    const arr = Array.from(block.code.matchAll(importRegex));
-    const localImports: string[] = [];
-
-    arr.forEach((item) => {
-      localImports.push(item[1]);
-    });
-
-    return {
-      ...block,
-      imports: localImports,
-    };
-  });
+const extractImports = (code: string): string[] => {
+  return Array.from(code.matchAll(importRegex)).map((item) => item[1]);
 };
+
+export type Language = 'js' | 'ts';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async function (
@@ -134,12 +113,10 @@ const forceEsm = (source: string): string => {
   return `${source} \n export {};`;
 };
 
-type Language = 'js' | 'ts';
-
 export const getCompiledWebpack = async (
   sourceCode: string,
   language: Language,
-): Promise<any> => {
+): Promise<string> => {
   // write source code to a temp file
   const tempFile = `index.${language || 'js'}`;
   const tmpPath = await mkdtemp(`codeblock-`);
@@ -202,4 +179,36 @@ export const getCompiledWebpack = async (
   const result = await readFile(resultPath, 'utf8');
   await rmDir(tmpPath, { recursive: true });
   return result;
+};
+
+export const extractCodeBlocks = async (
+  content: string,
+): Promise<CodeBlock[]> => {
+  const blocks: CodeBlock[] = Array.from(content.matchAll(codeBlockRegex)).map(
+    ([, language, code]) => {
+      const lang = languageMap[language.split('-')[0]] || language;
+
+      const opts = {
+        autorun: language.includes('-autorun'),
+      };
+
+      return {
+        language: lang as Language,
+        options: opts,
+        code,
+        imports: extractImports(code),
+      };
+    },
+  );
+
+  for (const block of blocks) {
+    if (['ts', 'js'].includes(block.language)) {
+      block.webpackBundle = await getCompiledWebpack(
+        block.code,
+        block.language,
+      );
+    }
+  }
+
+  return blocks;
 };
