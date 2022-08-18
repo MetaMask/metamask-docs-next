@@ -9,39 +9,36 @@ export interface CodeBlockProps {
   defaultValue: string;
 }
 
+const editorOptions = {
+  scrollbar: {
+    verticalHasArrows: true,
+    horizontalHasArrows: true,
+    vertical: 'hidden',
+    horizontal: 'hidden',
+    verticalScrollbarSize: 17,
+    horizontalScrollbarSize: 17,
+    arrowSize: 30,
+    useShadows: false,
+  },
+  minimap: {
+    enabled: false,
+  },
+  peekWidgetDefaultFocus: 'editor',
+  scrollBeyondLastLine: false,
+  lineNumbers: 'on',
+  fixedOverflowWidgets: true,
+  theme: 'vs-dark',
+} as monacoEditor.editor.IEditorConstructionOptions;
+
 export default function makeCodeBlock(
   depModules: MonacoModule[],
   codeBlocks: CodeBlock[],
 ) {
-  // which block am i??
-  // who am i?
-  // compare children.text
   return function CodeBlockComponent(props: CodeBlockProps) {
     const opts = props.children.props.className.replace('language-', '');
     const lang = opts.split('-')[0];
     const autorun = Boolean(opts.split('-')[1]);
     const code = props.children.props.children;
-
-    const editorOptions = {
-      scrollbar: {
-        verticalHasArrows: true,
-        horizontalHasArrows: true,
-        vertical: 'hidden',
-        horizontal: 'hidden',
-        verticalScrollbarSize: 17,
-        horizontalScrollbarSize: 17,
-        arrowSize: 30,
-        useShadows: false,
-      },
-      minimap: {
-        enabled: false,
-      },
-      peekWidgetDefaultFocus: 'editor',
-      scrollBeyondLastLine: false,
-      lineNumbers: 'on',
-      fixedOverflowWidgets: true,
-      theme: 'vs-dark',
-    } as monacoEditor.editor.IEditorConstructionOptions;
 
     const MAX_HEIGHT = Infinity;
     const MIN_COUNT_OF_LINES = 3;
@@ -168,12 +165,12 @@ export default function makeCodeBlock(
       const codeBlock = codeBlocks.find((b) => b.code === code);
       if (codeBlock === undefined) {
         throw new Error(
-          'Cannot find a code block matching the code for snippet: '+ code,
+          `Cannot find a code block matching the code for snippet: ${code}`,
         );
       }
 
       if (codeBlock.webpackBundle === undefined) {
-        throw new Error('Cannot find webpack bundle for code block' + code);
+        throw new Error(`Cannot find webpack bundle for code block${code}`);
       }
       // these are used to override the console.log and console.error inside the example
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

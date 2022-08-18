@@ -1,7 +1,8 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { MDXRemote } from 'next-mdx-remote';
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 import { useRouter } from 'next/router';
+import * as mdx from '@mdx-js/react';
 import { getPageForSlug } from '../lib/getPages';
 import getCodeBlockModules, {
   CodeBlock,
@@ -14,10 +15,12 @@ import Warning from '../components/Warning';
 import makeCodeBlock from '../components/mdx/CodeBlock';
 import { getTOC, TOCGroup } from '../lib/getTOC';
 
+type MDXComponents = React.ComponentProps<typeof mdx.MDXProvider>['components'];
+
 interface Props {
   redirectClientSide?: string;
   toc?: TOCGroup[];
-  serializedPage?: TOCGroup[];
+  serializedPage?: MDXRemoteSerializeResult;
   depModules?: MonacoModule[];
   codeBlocks?: CodeBlock[];
 }
@@ -50,11 +53,13 @@ export default function Guide({
       <div className="guide">
         <MDXRemote
           {...serializedPage}
-          components={{
-            pre: makeCodeBlock(depModules, codeBlocks),
-            Tip,
-            Warning,
-          }}
+          components={
+            {
+              pre: makeCodeBlock(depModules, codeBlocks),
+              Tip,
+              Warning,
+            } as MDXComponents
+          }
         />
       </div>
     </div>
