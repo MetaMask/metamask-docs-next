@@ -43,16 +43,17 @@ const languageMap = {
 } as { [key: string]: string };
 
 export const extractCodeBlocks = (content: string): CodeBlock[] => {
-  const codeBlocks = Array.from(content.matchAll(codeBlockRegex))
-    .map(([, language, code]) => {
-      const lang = languageMap[language.split("-")[0]] || language;
+  const codeBlocks = Array.from(content.matchAll(codeBlockRegex)).map(
+    ([, language, code]) => {
+      const lang = languageMap[language.split('-')[0]] || language;
 
       const opts = {
-        autorun: language.includes('-autorun')
+        autorun: language.includes('-autorun'),
       };
 
       return { language: lang, options: opts, code };
-    });
+    },
+  );
 
   return codeBlocks?.map((block) => {
     const arr = Array.from(block.code.matchAll(importRegex));
@@ -70,7 +71,7 @@ export const extractCodeBlocks = (content: string): CodeBlock[] => {
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async function(
+export default async function (
   codeBlocks: CodeBlock[],
 ): Promise<MonacoModule[]> {
   const mods: MonacoModule[] = [];
@@ -122,31 +123,25 @@ export default async function(
   return mods;
 }
 
-
 const forceEsm = (source: string): string => {
   const lines = source.trim().split('\n');
-  for (let i = 0; i < lines.length; i++) {
-    const l = lines[i];
-    if (l.startsWith('import') || l.startsWith('export')) {
+  for (const line of lines) {
+    if (line.startsWith('import') || line.startsWith('export')) {
       return source;
     }
   }
 
   return `${source} \n export {};`;
-}
+};
+
+type Language = 'js' | 'ts';
 
 export const getCompiledWebpack = async (
   sourceCode: string,
   language: Language,
 ): Promise<any> => {
-  // language to extension
-  const languageToExtension = {
-    typescript: 'ts',
-    javascript: 'js',
-  };
-
   // write source code to a temp file
-  const tempFile = `index.${languageToExtension[language] || language || 'js'}`;
+  const tempFile = `index.${language || 'js'}`;
   const tmpPath = await mkdtemp(`codeblock-`);
   await fs.promises.writeFile(
     path.resolve(tmpPath, tempFile),
