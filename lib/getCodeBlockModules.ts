@@ -21,9 +21,14 @@ export interface MonacoModule {
   impls: MonacoLib[];
 }
 
+export interface CodeBlockOptions {
+  autorun: boolean;
+}
+
 export interface CodeBlock {
   imports: string[];
   language: string;
+  options: CodeBlockOptions;
   code: string;
 }
 
@@ -32,9 +37,22 @@ const codeBlockRegex =
 const importRegex =
   /(?:(?:(?:import)|(?:export))(?:.)*?from\s+["']([^"']+)["'])|(?:require(?:\s+)?\(["']([^"']+)["']\))|(?:\/+\s+<reference\s+path=["']([^"']+)["']\s+\/>)/gmu;
 
+const languageMap = {
+  typescript: 'ts',
+  javascript: 'js',
+} as { [key: string]: string };
+
 export const extractCodeBlocks = (content: string): CodeBlock[] => {
   const codeBlocks = Array.from(content.matchAll(codeBlockRegex)).map(
-    ([, language, code]) => ({ language, code }),
+    ([, language, code]) => {
+      const lang = languageMap[language.split('-')[0]] || language;
+
+      const opts = {
+        autorun: language.includes('-autorun'),
+      };
+
+      return { language: lang, options: opts, code };
+    },
   );
 
   return codeBlocks?.map((block) => {
@@ -105,24 +123,30 @@ export default async function (
   return mods;
 }
 
-type Language = 'typescript' | 'javascript';
+const forceEsm = (source: string): string => {
+  const lines = source.trim().split('\n');
+  for (const line of lines) {
+    if (line.startsWith('import') || line.startsWith('export')) {
+      return source;
+    }
+  }
+
+  return `${source} \n export {};`;
+};
+
+type Language = 'js' | 'ts';
 
 export const getCompiledWebpack = async (
   sourceCode: string,
   language: Language,
 ): Promise<any> => {
-  // language to extension
-  const languageToExtension = {
-    typescript: 'ts',
-    javascript: 'js',
-  };
-
   // write source code to a temp file
-  const tempFile = `index.${languageToExtension[language] || language || 'js'}`;
+  const tempFile = `index.${language || 'js'}`;
   const tmpPath = await mkdtemp(`codeblock-`);
   await fs.promises.writeFile(
     path.resolve(tmpPath, tempFile),
-    sourceCode,
+    // add export to force webpack::module.type: "javascript/esm"
+    forceEsm(sourceCode),
     'utf8',
   );
   const entry = `./${tmpPath}/${tempFile}`;

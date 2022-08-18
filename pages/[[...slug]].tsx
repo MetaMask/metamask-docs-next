@@ -100,8 +100,15 @@ export const getStaticProps: GetStaticProps<any, any> = async (context) => {
 
   for (const block of codeBlocks) {
     const { code, language } = block;
-    const codeBlockStrings = await getCompiledWebpack(code, language as any);
-    codeBlockMap[code.toString()] = codeBlockStrings;
+    if (
+      language === 'javascript' ||
+      language === 'typescript' ||
+      language === 'ts' ||
+      language === 'js'
+    ) {
+      const codeBlockStrings = await getCompiledWebpack(code, language as any);
+      codeBlockMap[code.toString()] = codeBlockStrings;
+    }
   }
 
   return {
