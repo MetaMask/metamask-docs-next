@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.13]
+### Uncategorized
+- Fixed linting issues
+- Added examples of other languages working
+- Fixed import from bad location
+- Fix syntax highlighting
+- Fixed linting issues
+- Changed how options for code block are wired up
+
 ## [0.0.12]
 ### Uncategorized
 - Fixed type issues
@@ -199,7 +208,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Run examples live in-page
 - Initial bootstrapping code for nextjs and mdx
 
-[Unreleased]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.12...HEAD
+[Unreleased]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.13...HEAD
+[0.0.13]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.12...v0.0.13
 [0.0.12]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.11...v0.0.12
 [0.0.11]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.10...v0.0.11
 [0.0.10]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.9...v0.0.10
