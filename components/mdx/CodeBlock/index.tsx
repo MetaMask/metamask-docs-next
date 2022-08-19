@@ -9,36 +9,44 @@ export interface CodeBlockProps {
   defaultValue: string;
 }
 
-const editorOptions = {
-  scrollbar: {
-    verticalHasArrows: true,
-    horizontalHasArrows: true,
-    vertical: 'hidden',
-    horizontal: 'hidden',
-    verticalScrollbarSize: 17,
-    horizontalScrollbarSize: 17,
-    arrowSize: 30,
-    useShadows: false,
-  },
-  minimap: {
-    enabled: false,
-  },
-  peekWidgetDefaultFocus: 'editor',
-  scrollBeyondLastLine: false,
-  lineNumbers: 'on',
-  fixedOverflowWidgets: true,
-  theme: 'vs-dark',
-} as monacoEditor.editor.IEditorConstructionOptions;
+const backwardsLanguageMap = {
+  ts: 'typescript',
+  js: 'javascript',
+} as { [key: string]: string };
 
 export default function makeCodeBlock(
   depModules: MonacoModule[],
   codeBlocks: CodeBlock[],
 ) {
   return function CodeBlockComponent(props: CodeBlockProps) {
-    const opts = props.children.props.className.replace('language-', '');
-    const lang = opts.split('-')[0];
-    const autorun = Boolean(opts.split('-')[1]);
     const code = props.children.props.children;
+    const codeBlock = codeBlocks.find((b) => b.code === code);
+    if (codeBlock === undefined) {
+      throw new Error(
+        `Cannot find a code block matching the code for snippet: ${code}`,
+      );
+    }
+
+    const editorOptions = {
+      scrollbar: {
+        verticalHasArrows: true,
+        horizontalHasArrows: true,
+        vertical: 'hidden',
+        horizontal: 'hidden',
+        verticalScrollbarSize: 17,
+        horizontalScrollbarSize: 17,
+        arrowSize: 30,
+        useShadows: false,
+      },
+      minimap: {
+        enabled: false,
+      },
+      peekWidgetDefaultFocus: 'editor',
+      scrollBeyondLastLine: false,
+      lineNumbers: 'on',
+      fixedOverflowWidgets: true,
+      theme: 'vs-dark',
+    } as monacoEditor.editor.IEditorConstructionOptions;
 
     const MAX_HEIGHT = Infinity;
     const MIN_COUNT_OF_LINES = 3;
@@ -162,15 +170,9 @@ export default function makeCodeBlock(
     };
 
     const runExample = () => {
-      const codeBlock = codeBlocks.find((b) => b.code === code);
-      if (codeBlock === undefined) {
-        throw new Error(
-          `Cannot find a code block matching the code for snippet: ${code}`,
-        );
-      }
-
+      // should prolly throw somewhere before we get this far
       if (codeBlock.webpackBundle === undefined) {
-        throw new Error(`Cannot find webpack bundle for code block${code}`);
+        throw new Error(`Cannot find webpack bundle for code block ${code}`);
       }
       // these are used to override the console.log and console.error inside the example
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -186,7 +188,7 @@ export default function makeCodeBlock(
     };
 
     useEffect(() => {
-      if (autorun) {
+      if (codeBlock.options.autorun) {
         runExample();
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -194,10 +196,14 @@ export default function makeCodeBlock(
 
     return (
       <>
-        {autorun === false && <button onClick={runExample}>Run</button>}
+        {codeBlock.options.norun === false && (
+          <button onClick={runExample}>Run</button>
+        )}
         <Editor
           height={height}
-          language={lang}
+          language={
+            backwardsLanguageMap[codeBlock.language] || codeBlock.language
+          }
           onMount={handleEditorDidMount}
           defaultValue={code}
           options={editorOptions}

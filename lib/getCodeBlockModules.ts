@@ -23,6 +23,7 @@ export interface MonacoModule {
 
 export interface CodeBlockOptions {
   autorun: boolean;
+  norun: boolean;
 }
 
 export interface CodeBlock {
@@ -33,8 +34,7 @@ export interface CodeBlock {
   code: string;
 }
 
-const codeBlockRegex =
-  /```(js|javascript|typescript|ts)(?:-autorun)?\n([\s\S]*?)```$/gmu;
+const codeBlockRegex = /```([\s\S]*?)\n([\s\S]*?)```$/gmu;
 const importRegex =
   /(?:(?:(?:import)|(?:export))(?:.)*?from\s+["']([^"']+)["'])|(?:require(?:\s+)?\(["']([^"']+)["']\))|(?:\/+\s+<reference\s+path=["']([^"']+)["']\s+\/>)/gmu;
 
@@ -185,15 +185,20 @@ export const extractCodeBlocks = async (
   content: string,
 ): Promise<CodeBlock[]> => {
   const blocks: CodeBlock[] = Array.from(content.matchAll(codeBlockRegex)).map(
-    ([, language, code]) => {
-      const lang = languageMap[language.split('-')[0]] || language;
+    ([, paramsString, code]) => {
+      const [lang, ...rest] = paramsString.split(' ');
 
       const opts = {
-        autorun: language.includes('-autorun'),
+        autorun: rest.includes('autorun'),
+        norun: rest.includes('norun'),
       };
 
+      if (opts.autorun) {
+        opts.norun = true;
+      }
+
       return {
-        language: lang as Language,
+        language: (languageMap[lang] || lang) as Language,
         options: opts,
         code,
         imports: extractImports(code),
