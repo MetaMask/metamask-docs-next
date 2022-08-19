@@ -2,12 +2,17 @@ import { inspect } from 'util';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Editor from '@monaco-editor/react';
-import { backwardsLanguageMap, CodeBlock, MonacoModule } from '../../../lib/getCodeBlockModules';
+import { CodeBlock, MonacoModule } from '../../../lib/getCodeBlockModules';
 
 export interface CodeBlockProps {
   children: React.ReactElement;
   defaultValue: string;
 }
+
+const backwardsLanguageMap = {
+  ts: 'typescript',
+  js: 'javascript'
+} as { [key: string]: string };
 
 export default function makeCodeBlock(
   depModules: MonacoModule[],
