@@ -35,10 +35,13 @@ export default function makeCodeBlock(
   codeBlocks: CodeBlock[],
 ) {
   return function CodeBlockComponent(props: CodeBlockProps) {
-    const opts = props.children.props.className.replace('language-', '');
-    const lang = opts.split('-')[0];
-    const autorun = Boolean(opts.split('-')[1]);
     const code = props.children.props.children;
+    const codeBlock = codeBlocks.find((b) => b.code === code);
+    if (codeBlock === undefined) {
+      throw new Error(
+        `Cannot find a code block matching the code for snippet: ${code}`,
+      );
+    }
 
     const MAX_HEIGHT = Infinity;
     const MIN_COUNT_OF_LINES = 3;
@@ -162,15 +165,9 @@ export default function makeCodeBlock(
     };
 
     const runExample = () => {
-      const codeBlock = codeBlocks.find((b) => b.code === code);
-      if (codeBlock === undefined) {
-        throw new Error(
-          `Cannot find a code block matching the code for snippet: ${code}`,
-        );
-      }
-
+      // should prolly throw somewhere before we get this far
       if (codeBlock.webpackBundle === undefined) {
-        throw new Error(`Cannot find webpack bundle for code block${code}`);
+        throw new Error(`Cannot find webpack bundle for code block ${code}`);
       }
       // these are used to override the console.log and console.error inside the example
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -178,6 +175,7 @@ export default function makeCodeBlock(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const consoleError = hackedLog('error');
       // eslint-disable-next-line no-eval
+
       eval(
         codeBlock.webpackBundle
           .replace(/console.log/gu, 'consoleLog')
@@ -186,7 +184,7 @@ export default function makeCodeBlock(
     };
 
     useEffect(() => {
-      if (autorun) {
+      if (codeBlock.options.autorun) {
         runExample();
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -194,10 +192,10 @@ export default function makeCodeBlock(
 
     return (
       <>
-        {autorun === false && <button onClick={runExample}>Run</button>}
+        {codeBlock.options.norun === true && <button onClick={runExample}>Run</button>}
         <Editor
           height={height}
-          language={lang}
+          language={codeBlock.language}
           onMount={handleEditorDidMount}
           defaultValue={code}
           options={editorOptions}
