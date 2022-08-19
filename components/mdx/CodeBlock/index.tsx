@@ -196,7 +196,7 @@ export default function makeCodeBlock(
 
     return (
       <>
-        {codeBlock.options.norun === true && (
+        {codeBlock.options.norun === false && (
           <button onClick={runExample}>Run</button>
         )}
         <Editor
