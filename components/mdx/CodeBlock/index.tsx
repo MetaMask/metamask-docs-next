@@ -11,7 +11,7 @@ export interface CodeBlockProps {
 
 const backwardsLanguageMap = {
   ts: 'typescript',
-  js: 'javascript'
+  js: 'javascript',
 } as { [key: string]: string };
 
 export default function makeCodeBlock(
@@ -201,7 +201,9 @@ export default function makeCodeBlock(
         )}
         <Editor
           height={height}
-          language={backwardsLanguageMap[codeBlock.language] || codeBlock.language}
+          language={
+            backwardsLanguageMap[codeBlock.language] || codeBlock.language
+          }
           onMount={handleEditorDidMount}
           defaultValue={code}
           options={editorOptions}

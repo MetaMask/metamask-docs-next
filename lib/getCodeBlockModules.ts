@@ -50,7 +50,7 @@ const extractImports = (code: string): string[] => {
 export type Language = 'js' | 'ts';
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async function(
+export default async function (
   codeBlocks: CodeBlock[],
 ): Promise<MonacoModule[]> {
   const mods: MonacoModule[] = [];
