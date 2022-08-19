@@ -2,33 +2,12 @@ import { inspect } from 'util';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Editor from '@monaco-editor/react';
-import { CodeBlock, MonacoModule } from '../../../lib/getCodeBlockModules';
+import { backwardsLanguageMap, CodeBlock, MonacoModule } from '../../../lib/getCodeBlockModules';
 
 export interface CodeBlockProps {
   children: React.ReactElement;
   defaultValue: string;
 }
-
-const editorOptions = {
-  scrollbar: {
-    verticalHasArrows: true,
-    horizontalHasArrows: true,
-    vertical: 'hidden',
-    horizontal: 'hidden',
-    verticalScrollbarSize: 17,
-    horizontalScrollbarSize: 17,
-    arrowSize: 30,
-    useShadows: false,
-  },
-  minimap: {
-    enabled: false,
-  },
-  peekWidgetDefaultFocus: 'editor',
-  scrollBeyondLastLine: false,
-  lineNumbers: 'on',
-  fixedOverflowWidgets: true,
-  theme: 'vs-dark',
-} as monacoEditor.editor.IEditorConstructionOptions;
 
 export default function makeCodeBlock(
   depModules: MonacoModule[],
@@ -42,6 +21,27 @@ export default function makeCodeBlock(
         `Cannot find a code block matching the code for snippet: ${code}`,
       );
     }
+
+    const editorOptions = {
+      scrollbar: {
+        verticalHasArrows: true,
+        horizontalHasArrows: true,
+        vertical: 'hidden',
+        horizontal: 'hidden',
+        verticalScrollbarSize: 17,
+        horizontalScrollbarSize: 17,
+        arrowSize: 30,
+        useShadows: false,
+      },
+      minimap: {
+        enabled: false,
+      },
+      peekWidgetDefaultFocus: 'editor',
+      scrollBeyondLastLine: false,
+      lineNumbers: 'on',
+      fixedOverflowWidgets: true,
+      theme: 'vs-dark',
+    } as monacoEditor.editor.IEditorConstructionOptions;
 
     const MAX_HEIGHT = Infinity;
     const MIN_COUNT_OF_LINES = 3;
@@ -196,7 +196,7 @@ export default function makeCodeBlock(
         )}
         <Editor
           height={height}
-          language={codeBlock.language}
+          language={backwardsLanguageMap[codeBlock.language] || codeBlock.language}
           onMount={handleEditorDidMount}
           defaultValue={code}
           options={editorOptions}

@@ -38,6 +38,11 @@ const codeBlockRegex = /```([\s\S]*?)\n([\s\S]*?)```$/gmu;
 const importRegex =
   /(?:(?:(?:import)|(?:export))(?:.)*?from\s+["']([^"']+)["'])|(?:require(?:\s+)?\(["']([^"']+)["']\))|(?:\/+\s+<reference\s+path=["']([^"']+)["']\s+\/>)/gmu;
 
+export const backwardsLanguageMap = {
+  ts: 'typescript',
+  js: 'javascript'
+} as { [key: string]: string };
+
 const languageMap = {
   typescript: 'ts',
   javascript: 'js',
@@ -50,7 +55,7 @@ const extractImports = (code: string): string[] => {
 export type Language = 'js' | 'ts';
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async function (
+export default async function(
   codeBlocks: CodeBlock[],
 ): Promise<MonacoModule[]> {
   const mods: MonacoModule[] = [];
