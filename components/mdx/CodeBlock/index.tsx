@@ -175,7 +175,6 @@ export default function makeCodeBlock(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const consoleError = hackedLog('error');
       // eslint-disable-next-line no-eval
-
       eval(
         codeBlock.webpackBundle
           .replace(/console.log/gu, 'consoleLog')
@@ -192,7 +191,9 @@ export default function makeCodeBlock(
 
     return (
       <>
-        {codeBlock.options.norun === true && <button onClick={runExample}>Run</button>}
+        {codeBlock.options.norun === true && (
+          <button onClick={runExample}>Run</button>
+        )}
         <Editor
           height={height}
           language={codeBlock.language}

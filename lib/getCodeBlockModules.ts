@@ -34,7 +34,7 @@ export interface CodeBlock {
   code: string;
 }
 
-const codeBlockRegex = /```([\s\S]*?)\n([\s\S]*?)```$/gmu
+const codeBlockRegex = /```([\s\S]*?)\n([\s\S]*?)```$/gmu;
 const importRegex =
   /(?:(?:(?:import)|(?:export))(?:.)*?from\s+["']([^"']+)["'])|(?:require(?:\s+)?\(["']([^"']+)["']\))|(?:\/+\s+<reference\s+path=["']([^"']+)["']\s+\/>)/gmu;
 
@@ -50,7 +50,7 @@ const extractImports = (code: string): string[] => {
 export type Language = 'js' | 'ts';
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async function(
+export default async function (
   codeBlocks: CodeBlock[],
 ): Promise<MonacoModule[]> {
   const mods: MonacoModule[] = [];
@@ -187,7 +187,6 @@ export const extractCodeBlocks = async (
   const blocks: CodeBlock[] = Array.from(content.matchAll(codeBlockRegex)).map(
     ([, paramsString, code]) => {
       const [lang, ...rest] = paramsString.split(' ');
-
 
       const opts = {
         autorun: rest.includes('autorun'),
