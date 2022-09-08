@@ -1,9 +1,6 @@
-/* eslint-disable import/no-unassigned-import */
-import 'normalize.css';
-import '../styles/index.scss';
-
-import type { AppProps } from 'next/app';
-import Layout from '../layout';
+import type { AppProps } from "next/app";
+import Layout from "../layout";
+import "../styles/globals.css";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (

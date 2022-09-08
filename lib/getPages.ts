@@ -2,6 +2,8 @@ import fs from 'fs';
 import { promisify } from 'util';
 import _glob from 'glob';
 import matter from 'gray-matter';
+import { serialize } from "next-mdx-remote/serialize";
+
 
 const readFile = promisify(fs.readFile);
 const glob = promisify(_glob);

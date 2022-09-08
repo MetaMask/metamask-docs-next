@@ -4,12 +4,14 @@ order: 2
 ---
 
 <Tip title="Recommended Reading">
-We recommend that all web3 site developers read the [Basic Usage](#basic-usage) section.
+  We recommend that all web3 site developers read the [Basic
+  Usage](#basic-usage) section.
 </Tip>
 
 <Tip title="Recent Breaking Provider Changes">
-If you are an Ethereum application developer and are looking for information about our January 2021 provider API changes,
-please see our [Migration Guide](./provider-migration.html) for more details.
+  If you are an Ethereum application developer and are looking for information
+  about our January 2021 provider API changes, please see our [Migration
+  Guide](./provider-migration.html) for more details.
 </Tip>
 
 MetaMask injects a global API into websites visited by its users at `window.ethereum`.
@@ -34,30 +36,26 @@ class EmailContact
 end
 ```
 
-```shell norun
-ls -la
-```
-
 ```javascript norun
-const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 const account = accounts[0];
 ```
 
 ```typescript
 // This function detects most providers injected at window.ethereum
-import detectEthereumProvider from '@metamask/detect-provider';
+import detectEthereumProvider from "@metamask/detect-provider";
 
 const provider: any | null = await detectEthereumProvider();
 
 if (provider) {
   // From now on, this should always be true:
-  console.log("oooh", "yaaaaa", provider,[1,2,3, {a: 123, b: 321 }]);
+  console.log("oooh", "yaaaaa", provider, [1, 2, 3, { a: 123, b: 321 }]);
   console.log("oooh", "yaaaaa");
-  console.log(provider)
-  console.log([1,2,3, {a: 123, b: 321 }]);
+  console.log(provider);
+  console.log([1, 2, 3, { a: 123, b: 321 }]);
   // initialize your app
 } else {
-  console.log('Please install MetaMask!');
+  console.log("Please install MetaMask!");
 }
 ```
 
@@ -65,7 +63,7 @@ The Ethereum JavaScript provider API is specified by [EIP-1193](https://eips.eth
 
 ```javascript
 // This function detects most providers injected at window.ethereum
-import detectEthereumProvider from '@metamask/detect-provider';
+import detectEthereumProvider from "@metamask/detect-provider";
 
 const provider = await detectEthereumProvider();
 
@@ -74,7 +72,7 @@ if (provider) {
   // provider === window.ethereum
   startApp(provider); // initialize your app
 } else {
-  console.log('Please install MetaMask!');
+  console.log("Please install MetaMask!");
 }
 function startApp() {
   console.log("starting app now that metamask is ready");

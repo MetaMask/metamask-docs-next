@@ -1,8 +1,8 @@
-import Head from 'next/head';
+import Head from "next/head";
 
-import Logo from './Logo';
-import Topnav from './Topnav';
-import Foot from './Foot';
+import Logo from "./Logo";
+import Foot from "./Foot";
+import Nav from "../components/Nav";
 
 interface PropTypes {
   children: React.ReactNode;
@@ -41,11 +41,11 @@ const Layout = ({ children }: PropTypes) => {
       </Head>
       <div className="app-container">
         <main>
-          <header>
-            <Logo />
-            <Topnav />
-          </header>
-          <section>{children}</section>
+          <Nav>
+            <section className="flex flex-1 flex-col lg:pl-64">
+              {children}
+            </section>
+          </Nav>
           <footer>
             <Foot />
           </footer>
