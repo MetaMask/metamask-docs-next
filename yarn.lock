@@ -4070,6 +4070,7 @@ __metadata:
     monaco-editor: ^0.33.0
     next: 12.2.2
     next-mdx-remote: ^4.1.0
+    next-themes: ^0.2.0
     normalize.css: ^8.0.1
     prettier: ^2.2.1
     prettier-plugin-packagejson: ^2.2.17
@@ -4641,6 +4642,17 @@ __metadata:
     react: ">=16.x <=18.x"
     react-dom: ">=16.x <=18.x"
   checksum: 17a5b41ee47d90bf48cdc13850e635ea419cd281231f84cf0d66ed149ce416f82a5999d7e6eab59a8ceb1559aaf76e4c1d90ccb28a03645f3e52a2e717d7e678
+  languageName: node
+  linkType: hard
+
+"next-themes@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "next-themes@npm:0.2.0"
+  peerDependencies:
+    next: "*"
+    react: "*"
+    react-dom: "*"
+  checksum: cee02db16bee471856557db9572ffa041b1d77254798e345fad09e1bd8b878e937cdacc73bb73c598eb3b042f20fff0201bd73d2de42e2061fa818585415e857
   languageName: node
   linkType: hard
 
