@@ -1,12 +1,15 @@
-import type { AppProps } from "next/app";
-import Layout from "../layout";
-import "../styles/globals.css";
+import type { AppProps } from 'next/app';
+import { CmdProvider } from '../components/CmdProvider';
+import Layout from '../components/MainLayout';
+import '../styles/globals.css';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <Layout {...pageProps}>
-      <Component {...pageProps} />
-    </Layout>
+    <CmdProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </CmdProvider>
   );
 };
 

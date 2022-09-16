@@ -1,8 +1,8 @@
-import { inspect } from "util";
-import * as monacoEditor from "monaco-editor/esm/vs/editor/editor.api";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import Editor from "@monaco-editor/react";
-import { CodeBlock, MonacoModule } from "../../../lib/getCodeBlockModules";
+import { inspect } from 'util';
+import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Editor from '@monaco-editor/react';
+import { CodeBlock, MonacoModule } from '../../../lib/getCodeBlockModules';
 
 export interface CodeBlockProps {
   children: React.ReactElement;
@@ -12,8 +12,8 @@ export interface CodeBlockProps {
 }
 
 const backwardsLanguageMap = {
-  ts: "typescript",
-  js: "javascript",
+  ts: 'typescript',
+  js: 'javascript',
 } as { [key: string]: string };
 
 export function CodeBlockComponent(props: CodeBlockProps) {
@@ -22,7 +22,7 @@ export function CodeBlockComponent(props: CodeBlockProps) {
   const codeBlock = codeBlocks.find((b) => b.code === code);
   if (codeBlock === undefined) {
     throw new Error(
-      `Cannot find a code block matching the code for snippet: ${code}`
+      `Cannot find a code block matching the code for snippet: ${code}`,
     );
   }
 
@@ -30,8 +30,8 @@ export function CodeBlockComponent(props: CodeBlockProps) {
     scrollbar: {
       verticalHasArrows: true,
       horizontalHasArrows: true,
-      vertical: "hidden",
-      horizontal: "hidden",
+      vertical: 'hidden',
+      horizontal: 'hidden',
       verticalScrollbarSize: 17,
       horizontalScrollbarSize: 17,
       arrowSize: 30,
@@ -40,11 +40,11 @@ export function CodeBlockComponent(props: CodeBlockProps) {
     minimap: {
       enabled: false,
     },
-    peekWidgetDefaultFocus: "editor",
+    peekWidgetDefaultFocus: 'editor',
     scrollBeyondLastLine: false,
-    lineNumbers: "on",
+    lineNumbers: 'on',
     fixedOverflowWidgets: true,
-    theme: "vs-dark",
+    theme: 'vs-dark',
   } as monacoEditor.editor.IEditorConstructionOptions;
 
   const MAX_HEIGHT = Infinity;
@@ -59,7 +59,7 @@ export function CodeBlockComponent(props: CodeBlockProps) {
   const handleEditorChange = useCallback(() => {
     const countOfLines = (valueGetter as any).current
       .getValue()
-      .split("\n").length;
+      .split('\n').length;
     if (countOfLines >= MIN_COUNT_OF_LINES) {
       const currentHeight = countOfLines * LINE_HEIGHT;
       if (MAX_HEIGHT > currentHeight) {
@@ -74,13 +74,13 @@ export function CodeBlockComponent(props: CodeBlockProps) {
       depModules.forEach((depModule) => {
         monaco.languages.typescript.typescriptDefaults.addExtraLib(
           depModule.content,
-          `file:///node_modules/${depModule.name}`
+          `file:///node_modules/${depModule.name}`,
         );
 
         depModule.impls.forEach((impl) => {
           monaco.languages.typescript.typescriptDefaults.addExtraLib(
             impl.content,
-            `file:///${impl.filename}`
+            `file:///${impl.filename}`,
           );
         });
       });
@@ -124,10 +124,10 @@ export function CodeBlockComponent(props: CodeBlockProps) {
       handleEditorChange();
       editor.onDidChangeModelContent(handleEditorChange);
     },
-    [handleEditorChange]
+    [handleEditorChange],
   );
 
-  const hackedLog = (level: "log" | "error") => {
+  const hackedLog = (level: 'log' | 'error') => {
     return (...things: any) => {
       (console as any)[level](...things);
 
@@ -137,10 +137,10 @@ export function CodeBlockComponent(props: CodeBlockProps) {
           {
             line: things
               .map((t: any) => {
-                if (typeof t === "object" && Array.isArray(t) === false) {
+                if (typeof t === 'object' && Array.isArray(t) === false) {
                   const copy: any = {};
                   Object.keys(t)
-                    .filter((k) => !k.startsWith("_"))
+                    .filter((k) => !k.startsWith('_'))
                     .forEach((k) => (copy[k] = t[k]));
 
                   return inspect(copy, {
@@ -150,7 +150,7 @@ export function CodeBlockComponent(props: CodeBlockProps) {
                   });
                 }
 
-                if (typeof t === "string") {
+                if (typeof t === 'string') {
                   return t;
                 }
 
@@ -160,7 +160,7 @@ export function CodeBlockComponent(props: CodeBlockProps) {
                   showProxy: false,
                 });
               })
-              .join(" "),
+              .join(' '),
             level,
           },
         ];
@@ -175,14 +175,14 @@ export function CodeBlockComponent(props: CodeBlockProps) {
     }
     // these are used to override the console.log and console.error inside the example
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const consoleLog = hackedLog("log");
+    const consoleLog = hackedLog('log');
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const consoleError = hackedLog("error");
+    const consoleError = hackedLog('error');
     // eslint-disable-next-line no-eval
     eval(
       codeBlock.webpackBundle
-        .replace(/console.log/gu, "consoleLog")
-        .replace(/console.error/gu, "consoleError")
+        .replace(/console.log/gu, 'consoleLog')
+        .replace(/console.error/gu, 'consoleError'),
     );
   };
 
@@ -194,7 +194,7 @@ export function CodeBlockComponent(props: CodeBlockProps) {
   }, []);
 
   return (
-    <>
+    <div className="p-2 ">
       {codeBlock.options.norun === false && (
         <button onClick={runExample}>Run</button>
       )}
@@ -224,6 +224,6 @@ export function CodeBlockComponent(props: CodeBlockProps) {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
- Changelog
+Changelog
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ## [0.0.13]
+
 ### Uncategorized
+
 - Fixed linting issues
 - Added examples of other languages working
 - Fixed import from bad location
@@ -16,7 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed how options for code block are wired up
 
 ## [0.0.12]
+
 ### Uncategorized
+
 - Fixed type issues
 - Fixed some linting errors
 - Changed how the codeblock objects are constructed and used
@@ -25,7 +29,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - WIP GOTTA GO TO BASEBALL
 
 ## [0.0.11]
+
 ### Uncategorized
+
 - Fixed import of TOCGroup
 - Changed getStaticPaths to use getTOC instead of getPages
 - Changed the selectors for css to use sass nesting
@@ -34,12 +40,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added cursor pointer for details sidenav
 
 ## [0.0.10]
+
 ### Uncategorized
+
 - Merge branch 'main' into nested-folders-smalltime
 - Fixed fallback false
 
 ## [0.0.9]
+
 ### Uncategorized
+
 - Fixed homepage in package.json
 - Fixed ordering
 - Added dynamic route to handle index routes
@@ -54,29 +64,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - WIP nested folders
 
 ## [0.0.8]
+
 ### Uncategorized
+
 - Merge branch 'main' of github.com:MetaMask/metamask-docs-next
 - Fixed introduction to use Tip component
 
 ## [0.0.7]
+
 ### Uncategorized
+
 - Fixed url linking issues
 
 ## [0.0.6]
+
 ### Uncategorized
+
 - Fixed linting issue
 - Fixed asset path for next
 
 ## [0.0.5]
+
 ### Uncategorized
+
 - Update publish-release.yml
 
 ## [0.0.4]
+
 ### Uncategorized
+
 - Fixed release to make a build
 
 ## [0.0.3]
+
 ### Uncategorized
+
 - Fixed redirect to do it client side
 - Fixed linting issues
 - Fixed the routing
@@ -139,12 +161,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Inside `[guide].tsx` we want a div to control two divs with flexbox.
 - Update background colors to match metamask.io and reduce contrast on navigation seperator
 - Add SCSS, topnav, sidenav, footer, and flexbox layout to take up full screen.
-- Clean up _app.tsx and other components, add a few markdwon files with matter and resolve key error in sidebar.
+- Clean up \_app.tsx and other components, add a few markdwon files with matter and resolve key error in sidebar.
 - feat: first
 - Initial commit from Create Next App
 
 ## [0.0.2]
+
 ### Added
+
 - Update CHANGELOG.md
 - Changed :::tip to Tip component and Warning
 - Added Tip and Warning components
@@ -198,17 +222,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Inside `[guide].tsx` we want a div to control two divs with flexbox.
 - Update background colors to match metamask.io and reduce contrast on navigation seperator
 - Add SCSS, topnav, sidenav, footer, and flexbox layout to take up full screen.
-- Clean up _app.tsx and other components, add a few markdwon files with matter and resolve key error in sidebar.
+- Clean up \_app.tsx and other components, add a few markdwon files with matter and resolve key error in sidebar.
 - feat: first
 - Initial commit from Create Next App
 
 ## [0.0.1]
+
 ### Added
+
 - Tip and Warning components
 - Run examples live in-page
 - Initial bootstrapping code for nextjs and mdx
 
-[Unreleased]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.13...HEAD
+[unreleased]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.13...HEAD
 [0.0.13]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.12...v0.0.13
 [0.0.12]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.11...v0.0.12
 [0.0.11]: https://github.com/MetaMask/metamask-docs-next/compare/v0.0.10...v0.0.11

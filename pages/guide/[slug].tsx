@@ -1,54 +1,53 @@
-import fs from "fs-extra";
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import matter from "gray-matter";
-import type {
-  GetStaticPaths,
-  GetStaticProps,
-  InferGetStaticPropsType,
-  NextPage,
-} from "next";
-import { serialize } from "next-mdx-remote/serialize";
+import fs from 'fs-extra';
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
+import matter from 'gray-matter';
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { serialize } from 'next-mdx-remote/serialize';
 
 import getCodeBlockModules, {
   CodeBlock,
   extractCodeBlocks,
   MonacoModule,
-} from "../../lib/getCodeBlockModules";
-import type { PageMeta } from "../../lib/getPages";
-import { CodeBlockComponent } from "../../components/mdx/CodeBlock";
-import Tip from "../../components/Tip";
-import Warning from "../../components/Warning";
+} from '../../lib/getCodeBlockModules';
+import type { PageMeta } from '../../lib/getPages';
+import { CodeBlockComponent } from '../../components/mdx/CodeBlock';
+import Tip from '../../components/Tip';
+import Warning from '../../components/Warning';
+import DocsLayout from '../../components/DocsLayout';
 
-type Props = {
+interface Props {
   meta: PageMeta;
   content: string;
   serializedPage: MDXRemoteSerializeResult;
   codeBlocks: CodeBlock[];
   depModules: MonacoModule[];
-};
+}
 
 const Page: NextPage<Props> = ({
   meta,
-  content,
+  // content,
   serializedPage,
   codeBlocks,
   depModules,
 }) => {
+  console.log(meta);
   return (
-    <MDXRemote
-      {...serializedPage}
-      components={{
-        pre: (props: any) => (
-          <CodeBlockComponent
-            {...props}
-            codeBlocks={codeBlocks}
-            depModules={depModules}
-          />
-        ),
-        Tip: (props) => <Tip {...props} />,
-        Warning,
-      }}
-    />
+    <DocsLayout title={meta.title}>
+      <MDXRemote
+        {...serializedPage}
+        components={{
+          pre: (props: any) => (
+            <CodeBlockComponent
+              {...props}
+              codeBlocks={codeBlocks}
+              depModules={depModules}
+            />
+          ),
+          Tip: (props) => <Tip {...props} />,
+          Warning,
+        }}
+      />
+    </DocsLayout>
   );
 };
 
@@ -57,13 +56,14 @@ export default Page;
 /**
  * It reads the `/guide` directory, filters out all files that don't end with `.mdx`, and then returns
  * an array of objects with the `slug` property
+ *
  * @returns An object with a paths property.
  */
 export const getStaticPaths: GetStaticPaths = async () => {
-  const pagesFiles = await fs.readdir("content/guide");
+  const pagesFiles = await fs.readdir('content/guide');
   const pages = pagesFiles
-    .filter((file) => file.endsWith("mdx"))
-    .map((file) => file.replace(".mdx", ""));
+    .filter((file) => file.endsWith('mdx'))
+    .map((file) => file.replace('.mdx', ''));
   const paths = pages.map((page) => ({
     params: { slug: page },
   }));

@@ -5,7 +5,7 @@
  * theme compatible styles
  */
 
- :root {
+:root {
   --brand-colors-white-white000: #ffffff;
   --brand-colors-white-white010: #fcfcfc;
   --brand-colors-black-black000: #000000;
@@ -69,7 +69,7 @@
   --brand-colors-yellow-yellow600: #ffc70a;
   /* typography */
   /* font family */
-  --font-family-euclid-circular-b: 'Euclid Circular B';
+  --font-family-euclid-circular-b: "Euclid Circular B";
   /* font sizes */
   --font-size-base: 16px;
   --font-size-1: 0.625rem;

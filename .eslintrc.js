@@ -3,12 +3,23 @@ module.exports = {
 
   extends: ['@metamask/eslint-config', 'next'],
 
+  rules: {
+    'import/no-unassigned-import': [
+      'error',
+      {
+        // allow css files to be imported as modules (for global styles)
+        allow: ['**/*.css'],
+      },
+    ],
+  },
+
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
       extends: ['@metamask/eslint-config-typescript'],
       rules: {
         'jsdoc/require-jsdoc': 'off',
+        'jsdoc/match-description': 'off',
       },
     },
 
@@ -28,5 +39,7 @@ module.exports = {
     'dist/',
     'out/',
     'next-env.d.ts',
+    'next.config.js',
+    'tailwind.config.js',
   ],
 };
