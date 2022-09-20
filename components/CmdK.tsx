@@ -52,8 +52,6 @@ export const Cmd: React.FC = () => {
     }
   };
 
-  console.log(cmdKNavOptions);
-
   const filteredDocs =
     query === ''
       ? []
@@ -100,7 +98,6 @@ export const Cmd: React.FC = () => {
                     onChange={(e) => setQuery(e.target.value)}
                   />
                 </div>
-
                 {(query === '' || filteredDocs.length > 0) && (
                   <Combobox.Options
                     static
@@ -171,7 +168,6 @@ export const Cmd: React.FC = () => {
                               {({ active }) => (
                                 <>
                                   <action.icon
-                                    onKeyDown={console.log}
                                     className={clsx(
                                       'h-6 w-6 flex-none text-gray-900 text-opacity-40',
                                       active && 'text-opacity-100',

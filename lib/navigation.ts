@@ -46,7 +46,6 @@ const reducer = (
     },
     [],
   );
-  console.log({ pageName, href });
   return [...accumulatedValue, { pageName, href }, ...childrenArray];
 };
 

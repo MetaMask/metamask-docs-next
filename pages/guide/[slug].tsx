@@ -30,7 +30,6 @@ const Page: NextPage<Props> = ({
   codeBlocks,
   depModules,
 }) => {
-  console.log(meta);
   return (
     <DocsLayout title={meta.title}>
       <MDXRemote
