@@ -1,5 +1,5 @@
 import { type PropsWithChildren } from 'react';
-import SideNav from 'components/SideNav';
+import SideNav from './SideNav';
 
 interface Props {
   title: string;

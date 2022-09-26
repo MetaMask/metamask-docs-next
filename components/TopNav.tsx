@@ -3,8 +3,8 @@ import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useSnapshot } from 'valtio';
-import { searchState } from 'hooks/useCmd';
-import { Kbd } from 'components/Kbd';
+import { searchState } from '../hooks/useCmd';
+import { Kbd } from './Kbd';
 
 export default function TopNav() {
   const { isCmdOpen } = useSnapshot(searchState);

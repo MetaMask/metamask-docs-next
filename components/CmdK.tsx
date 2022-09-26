@@ -4,9 +4,9 @@ import { FolderIcon, HashtagIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useSnapshot } from 'valtio';
 import { useRouter } from 'next/router';
-import { searchState } from 'hooks/useCmd';
-import { cmdKNavOptions, navigation, NavigationItem } from 'lib/navigation';
-import { isNavigationItem, isQuickAction } from 'lib/typeguards';
+import { searchState } from '../hooks/useCmd';
+import { cmdKNavOptions, navigation, NavigationItem } from '../lib/navigation';
+import { isNavigationItem, isQuickAction } from '../lib/typeguards';
 
 const recent: NavigationItem[] = navigation.map(({ pageName, href }) => ({
   pageName,

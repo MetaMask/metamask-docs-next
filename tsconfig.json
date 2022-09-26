@@ -15,9 +15,7 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
-    "paths": {
-      "*": ["./*"]
-    }
+    "rootDir": "."
   },
   "include": ["next.config.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

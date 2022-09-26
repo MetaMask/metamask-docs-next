@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { navigation } from 'lib/navigation';
+import { navigation } from '../lib/navigation';
 
 export default function SideNav() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
