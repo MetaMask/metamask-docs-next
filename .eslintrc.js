@@ -41,5 +41,6 @@ module.exports = {
     'next-env.d.ts',
     'next.config.js',
     'tailwind.config.js',
+    '!.prettierrc.js',
   ],
 };
