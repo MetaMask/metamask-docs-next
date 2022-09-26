@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { PropsWithChildren } from 'react';
 
-import TopNav from './TopNav';
+import TopNav from 'components/TopNav';
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   return (

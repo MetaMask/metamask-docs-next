@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 interface Props {
   title: string;
-  children: React.ReactNode;
 }
 
-const Warning = (props: Props) => {
+const Warning = (props: PropsWithChildren<Props>) => {
   return (
     <div className="warning">
       <div className="warning-content-title">{props.title}</div>

@@ -4,16 +4,16 @@ import matter from 'gray-matter';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { serialize } from 'next-mdx-remote/serialize';
 
+import type { PageMeta } from 'lib/getPages';
+import { CodeBlockComponent } from 'components/mdx/CodeBlock';
+import Tip from 'components/Tip';
+import Warning from 'components/Warning';
+import DocsLayout from 'components/DocsLayout';
 import getCodeBlockModules, {
   CodeBlock,
   extractCodeBlocks,
   MonacoModule,
-} from '../../lib/getCodeBlockModules';
-import type { PageMeta } from '../../lib/getPages';
-import { CodeBlockComponent } from '../../components/mdx/CodeBlock';
-import Tip from '../../components/Tip';
-import Warning from '../../components/Warning';
-import DocsLayout from '../../components/DocsLayout';
+} from 'lib/getCodeBlockModules';
 
 interface Props {
   meta: PageMeta;
