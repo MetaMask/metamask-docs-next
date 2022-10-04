@@ -22,7 +22,7 @@
   "dependencies": {
     "@mdx-js/loader": "^2.1.2",
     "@metamask/design-tokens": "^1.8.0",
-    "@metamask/detect-provider": "^1.2.0",
+    "@metamask/detect-provider": "^2.0.0",
     "@monaco-editor/react": "^4.4.5",
     "@next/mdx": "^12.2.2",
     "@types/glob": "^7.2.0",
